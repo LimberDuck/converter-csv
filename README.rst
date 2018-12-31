@@ -159,5 +159,5 @@ Authors
 `Damian Krawczyk`_ created Converter CSV by LimberDuck.
 
 .. _Damian Krawczyk: https://limberduck.org
-.. _CHANGELOG: https://gitlab.com/limberduck/converter-csv/blob/master/CHANGELOG.rst
-.. _LICENSE: https://gitlab.com/limberduck/converter-csv/blob/master/LICENSE
+.. _CHANGELOG: https://github.com/LimberDuck/converter-csv/blob/master/CHANGELOG.rst
+.. _LICENSE: https://github.com/LimberDuck/converter-csv/blob/master/LICENSE
