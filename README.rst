@@ -52,7 +52,7 @@ Windows
 
 .. code-block:: powershell
 
- git clone git@github.com:LimberDuck/converter-csv.git
+ git clone https://github.com/LimberDuck/converter-csv.git
 
 4. Install requirements using below command
 
@@ -98,7 +98,7 @@ Linux (Ubuntu)
 
 .. code-block:: bash
 
- git clone git@github.com:LimberDuck/converter-csv.git
+ git clone https://github.com/LimberDuck/converter-csv.git
 
 4. If you don't have, install pip using below command
 
