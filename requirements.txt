@@ -1,0 +1,15 @@
+altgraph==0.16.1
+chardet==3.0.4
+et-xmlfile==1.0.1
+future==0.17.1
+imageio==2.4.1
+jdcal==1.4
+macholib==1.11
+numpy==1.15.4
+pefile==2018.8.8
+Pillow==5.3.0
+PyInstaller==3.4
+PyQt5==5.11.3
+PyQt5-sip==4.19.13
+pywin32-ctypes==0.2.0
+XlsxWriter==1.1.2
