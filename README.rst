@@ -8,6 +8,9 @@ operating system no matter if it is Windows, MacOS or Linux. It's free
 and open source tool. The reason this tool was created is to speed-up
 your tasks.
 
+.. image:: https://user-images.githubusercontent.com/9287709/50571993-17bdc600-0db7-11e9-9167-be215667c1e1.png
+   :width: 600
+
 .. class:: no-web no-pdf
 
 .. contents::
