@@ -113,7 +113,7 @@ Linux (Ubuntu)
 
 .. code-block:: bash
 
- pip install -r .\requirements.txt
+ pip3 install -r .\requirements.txt
 
 
 6. Run limberduck-converter-csv using below command
@@ -126,7 +126,7 @@ Linux (Ubuntu)
 
 .. code-block:: bash
 
- pip install --upgrade setuptools
+ pip3 install --upgrade setuptools
 
 8. Build your own executable file using below command
 
@@ -134,11 +134,43 @@ Linux (Ubuntu)
 
  ~/.local/bin/pyinstaller --onefile --windowed --icon=./icons/LimberDuck-converter-csv.ico limberduck-converter-csv.py
 
-9. Go to dist catalog to find executable file limberduck-converter-csv.exe
+9. Go to dist catalog to find executable file limberduck-converter-csv
 
 MacOS
 -----
-tbd soon.
+1. If you don't have, install Python 3.6.0 or higher, you can download it via https://www.python.org/downloads
+
+2. Clone LimberDuck Converter CSV repository using below command
+
+.. code-block:: bash
+
+ git clone https://github.com/LimberDuck/converter-csv.git
+
+3. Install requirements using below command
+
+.. code-block:: bash
+
+ pip3.6 install -r .\requirements.txt
+
+4. Run limberduck-converter-csv using below command
+
+.. code-block:: bash
+
+ python3.6 limberduck-converter-csv.py
+
+5. Upgrade setuptools using below command
+
+.. code-block:: bash
+
+ pip3.6 install --upgrade setuptools
+
+6. Build your own executable file using below command
+
+.. code-block:: bash
+
+ pyinstaller --onefile --windowed --icon=./icons/LimberDuck-converter-csv.ico limberduck-converter-csv.py
+
+7. Go to dist catalog to find executable file limberduck-converter-csv
 
 Meta
 ====
