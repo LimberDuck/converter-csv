@@ -8,6 +8,8 @@ operating system no matter if it is Windows, MacOS or Linux. It's free
 and open source tool. The reason this tool was created is to speed-up
 your tasks.
 
+|license| |repo_size| |code_size| |supported_platform|
+
 .. image:: https://user-images.githubusercontent.com/9287709/50571993-17bdc600-0db7-11e9-9167-be215667c1e1.png
    :width: 600
 
@@ -196,3 +198,17 @@ Authors
 .. _Damian Krawczyk: https://limberduck.org
 .. _CHANGELOG: https://github.com/LimberDuck/converter-csv/blob/master/CHANGELOG.rst
 .. _LICENSE: https://github.com/LimberDuck/converter-csv/blob/master/LICENSE
+
+
+.. |license| image:: https://img.shields.io/github/license/LimberDuck/converter-csv.svg
+    :target: https://github.com/LimberDuck/converter-csv/blob/master/LICENSE
+    :alt: License
+
+.. |repo_size| image:: https://img.shields.io/github/repo-size/LimberDuck/converter-csv.svg
+    :target: https://github.com/LimberDuck/converter-csv
+
+.. |code_size| image:: https://img.shields.io/github/languages/code-size/LimberDuck/converter-csv.svg
+    :target: https://github.com/LimberDuck/converter-csv
+
+.. |supported_platform| image:: https://img.shields.io/badge/platform-windows%20%7C%20macos%20%7C%20linux-lightgrey.svg
+    :target: https://github.com/LimberDuck/converter-csv
