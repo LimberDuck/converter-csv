@@ -10,7 +10,7 @@ your tasks.
 
 |license| |repo_size| |code_size| |supported_platform|
 
-.. image:: https://user-images.githubusercontent.com/9287709/50571993-17bdc600-0db7-11e9-9167-be215667c1e1.png
+.. image:: https://user-images.githubusercontent.com/9287709/57588063-d4b2f280-750e-11e9-9ba8-e2d301d38cbc.png
    :width: 600
 
 .. class:: no-web no-pdf
@@ -44,7 +44,9 @@ Options
 =======
 * Click "Change" button (next to separator filed) to change separator to desired by you eg. ";".
 * Click "Change" button (next to directory field) to change target directory and use it for all output files.
-* Click "Open" button (next to directory field) to open current working directory.
+* Mark checkbox "add suffix with "_YYYYMMDD_HHMMSS"" to add into each file name suffix with current time with given format.
+* Key-in custom suffix and mark checkbox "add custom suffix" to add into each file name suffix with given text.
+* Click "Open" button to open current working directory.
 
 Build executable file
 =====================

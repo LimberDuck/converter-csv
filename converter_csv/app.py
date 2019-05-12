@@ -48,6 +48,9 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         self.__target_directory = ''
         self.__target_directory_changed = False
         self.__file_conversion_counter = 0
+        self.__suffix = ''
+        self.__suffix_template = ''
+
 
         self.parsing_thread = ParsingThread(files_to_pars=self.__files_to_pars,
                                             target_directory=self.__target_directory,
@@ -63,6 +66,9 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         self.actionChange_target_directory.triggered.connect(self.change_target_directory)
         self.actionOpen_target_directory.triggered.connect(self.open_target_directory)
         self.actionAbout.triggered.connect(self.open_dialog_about)
+
+        self.checkBox_suffix_timestamp.stateChanged.connect(self.suffix_timestamp_changed)
+        self.checkBox_suffix_custom.stateChanged.connect(self.suffix_custom_changed)
 
         self.pushButton_start.clicked.connect(self.parsing_thread_start)
         self.pushButton_separator_change.clicked.connect(self.change_delimiter)
@@ -90,6 +96,78 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
 
         self.progressBar.setRange(0, 10)
 
+    def suffix_timestamp_changed(self):
+        """
+        Function sets suffix appropriately if checkBox_suffix_timestamp has changed.
+        """
+        if self.checkBox_suffix_timestamp.isChecked() and not self.checkBox_suffix_custom.isChecked():
+            time_now = datetime.datetime.now()
+            time_now_formatted = time_now.strftime('%Y-%m-%d_%H%M%S')
+            self.change_suffix('_' + time_now_formatted)
+            self.__suffix_template = 'suffix_timestamp'
+
+        elif not self.checkBox_suffix_timestamp.isChecked() and self.checkBox_suffix_custom.isChecked():
+            suffix_custom_value = self.lineEdit_suffix_custom_value.text()
+            if suffix_custom_value:
+                space = '_'
+                self.__suffix_template = 'suffix_custom'
+            else:
+                space = ''
+                self.__suffix_template = 'suffix_custom_empty'
+            self.change_suffix(space + suffix_custom_value)
+
+        elif self.checkBox_suffix_timestamp.isChecked() and self.checkBox_suffix_custom.isChecked():
+            time_now = datetime.datetime.now()
+            time_now_formatted = time_now.strftime('%Y-%m-%d_%H%M%S')
+            suffix_custom_value = self.lineEdit_suffix_custom_value.text()
+            if suffix_custom_value:
+                space = '_'
+                self.__suffix_template = 'suffix_custom_timestamp'
+            else:
+                space = ''
+                self.__suffix_template = 'suffix_custom_empty_timestamp'
+            self.change_suffix(space + suffix_custom_value + '_' + time_now_formatted)
+
+        else:
+            self.change_suffix('')
+            self.__suffix_template = 'empty'
+
+    def suffix_custom_changed(self):
+        """
+        Function sets suffix appropriately if checkBox_suffix_custom has changed.
+        """
+        if self.checkBox_suffix_custom.isChecked() and not self.checkBox_suffix_timestamp.isChecked():
+            suffix_custom_value = self.lineEdit_suffix_custom_value.text()
+            if suffix_custom_value:
+                space = '_'
+                self.__suffix_template = 'suffix_custom'
+            else:
+                space = ''
+                self.__suffix_template = 'suffix_custom_empty'
+            self.change_suffix(space + suffix_custom_value)
+
+        elif not self.checkBox_suffix_custom.isChecked() and self.checkBox_suffix_timestamp.isChecked():
+            time_now = datetime.datetime.now()
+            time_now_formatted = time_now.strftime('%Y-%m-%d_%H%M%S')
+            self.change_suffix('_' + time_now_formatted)
+            self.__suffix_template = 'suffix_timestamp'
+
+        elif self.checkBox_suffix_custom.isChecked() and self.checkBox_suffix_timestamp.isChecked():
+            time_now = datetime.datetime.now()
+            time_now_formatted = time_now.strftime('%Y-%m-%d_%H%M%S')
+            suffix_custom_value = self.lineEdit_suffix_custom_value.text()
+            if suffix_custom_value:
+                space = '_'
+                self.__suffix_template = 'suffix_timestamp_custom'
+            else:
+                space = ''
+                self.__suffix_template = 'suffix_timestamp_custom_empty'
+            self.change_suffix('_' + time_now_formatted + space + suffix_custom_value)
+
+        else:
+            self.change_suffix('')
+            self.__suffix_template = 'empty'
+
     def open_dialog_about(self):
         """
         Function opens About dialog.
@@ -108,6 +186,44 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         color = 'black'
         self.print_log(info, color=color)
         try:
+            if self.__suffix_template == 'suffix_timestamp':
+                time_now = datetime.datetime.now()
+                time_now_formatted = time_now.strftime('%Y-%m-%d_%H%M%S')
+                self.update_parsing_settings('suffix', '_' + time_now_formatted)
+
+            elif self.__suffix_template == 'suffix_custom':
+                suffix_custom_value = self.lineEdit_suffix_custom_value.text()
+                self.update_parsing_settings('suffix', '_' + suffix_custom_value)
+
+            elif self.__suffix_template == 'suffix_custom_empty':
+                self.update_parsing_settings('suffix', '')
+
+            elif self.__suffix_template == 'suffix_custom_timestamp':
+                time_now = datetime.datetime.now()
+                time_now_formatted = time_now.strftime('%Y-%m-%d_%H%M%S')
+                suffix_custom_value = self.lineEdit_suffix_custom_value.text()
+                self.update_parsing_settings('suffix', '_' + suffix_custom_value + '_' + time_now_formatted)
+
+            elif self.__suffix_template == 'suffix_custom_empty_timestamp':
+                time_now = datetime.datetime.now()
+                time_now_formatted = time_now.strftime('%Y-%m-%d_%H%M%S')
+                self.update_parsing_settings('suffix', '_' + time_now_formatted)
+
+            elif self.__suffix_template == 'suffix_timestamp_custom':
+                time_now = datetime.datetime.now()
+                time_now_formatted = time_now.strftime('%Y-%m-%d_%H%M%S')
+                suffix_custom_value = self.lineEdit_suffix_custom_value.text()
+                self.update_parsing_settings('suffix', '_' + time_now_formatted + '_' + suffix_custom_value)
+
+            elif self.__suffix_template == 'suffix_timestamp_custom_empty':
+                time_now = datetime.datetime.now()
+                time_now_formatted = time_now.strftime('%Y-%m-%d_%H%M%S')
+                self.update_parsing_settings('suffix', '_' + time_now_formatted)
+
+            elif self.__suffix_template == 'empty':
+                self.update_parsing_settings('suffix', '')
+
+
             self.parsing_thread = ParsingThread(files_to_pars=self.__files_to_pars,
                                                 target_directory=self.__target_directory,
                                                 target_directory_changed=self.__target_directory_changed,
@@ -164,9 +280,33 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         """
         self.__parsing_settings[setting_name] = setting_value
 
+    def set_suffix(self, suffix_value):
+        """
+        Function sets given suffix into private variable __suffix and update parsing settings.
+        :param suffix_value: input suffix
+        """
+        self.__suffix = suffix_value
+        self.update_parsing_settings('suffix', suffix_value)
+
+    def change_suffix(self, suffix_value_new):
+        """
+        Function changes given suffix in private variable.
+
+        Confirmation is send to GUI into progress preview.
+        :param suffix_value_new: new suffix value
+        """
+        old_suffix = self.__suffix
+        new_suffix = suffix_value_new
+
+        self.set_suffix(new_suffix)
+
+        color = 'green'
+        info = 'Suffix changed from "' + old_suffix + '" to "' + self.__suffix + '"'
+        self.print_log(info, color)
+
     def set_delimiter(self, delimiter_value):
         """
-        Function sets given delimiter into private variable __delimiter and update all parsing settings.
+        Function sets given delimiter into private variable __delimiter and update parsing settings.
 
         :param delimiter_value: input delimiter
         """
@@ -454,12 +594,18 @@ class ParsingThread(QThread):
         target_directory = self.target_directory
         source_file_delimiter = self.parsing_settings['csv_delimiter']
 
+        if 'suffix' in self.parsing_settings:
+            suffix = self.parsing_settings['suffix']
+            print("suffix: ", suffix)
+        else:
+            suffix = ''
+
         for source_file_name_with_path in files_to_pars:
             source_file_name = os.path.basename(source_file_name_with_path)
             source_file_name_without_extension = os.path.splitext(source_file_name)[0]
             source_file_extension = os.path.splitext(source_file_name)[1]
             source_file_path = os.path.dirname(os.path.abspath(source_file_name_with_path))
-            target_file_name = source_file_name_without_extension + '.xlsx'
+            target_file_name = source_file_name_without_extension + suffix + '.xlsx'
             target_file_path = os.path.dirname(os.path.abspath(source_file_name_with_path))
 
             if target_directory_changed:
@@ -539,7 +685,7 @@ def main():
     name = app.applicationName()
     version = app.applicationVersion()
 
-    app_window_title = name + ' ' + version + ' ' + app_version_release_date
+    app_window_title = name
     form.setWindowTitle(app_window_title)
 
     # app_icon_file_name_png = 'LimberDuck-converter-csv.png'
