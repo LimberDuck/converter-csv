@@ -5,6 +5,11 @@ Change Log
 This document records all notable changes to `converter-csv by LimberDuck <https://github.com/LimberDuck/converter-csv>`_.
 This project adheres to `Semantic Versioning <http://semver.org/>`_.
 
+0.2.2 (2019-05-18)
+---------------------
+
+* Suffix with timestamp changed to format displayed in gui.
+
 0.2.1 (2019-05-18)
 ---------------------
 

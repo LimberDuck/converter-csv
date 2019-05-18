@@ -188,7 +188,7 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         try:
             if self.__suffix_template == 'suffix_timestamp':
                 time_now = datetime.datetime.now()
-                time_now_formatted = time_now.strftime('%Y-%m-%d_%H%M%S')
+                time_now_formatted = time_now.strftime('%Y%m%d_%H%M%S')
                 self.update_parsing_settings('suffix', '_' + time_now_formatted)
 
             elif self.__suffix_template == 'suffix_custom':
@@ -200,24 +200,24 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
 
             elif self.__suffix_template == 'suffix_custom_timestamp':
                 time_now = datetime.datetime.now()
-                time_now_formatted = time_now.strftime('%Y-%m-%d_%H%M%S')
+                time_now_formatted = time_now.strftime('%Y%m%d_%H%M%S')
                 suffix_custom_value = self.lineEdit_suffix_custom_value.text()
                 self.update_parsing_settings('suffix', '_' + suffix_custom_value + '_' + time_now_formatted)
 
             elif self.__suffix_template == 'suffix_custom_empty_timestamp':
                 time_now = datetime.datetime.now()
-                time_now_formatted = time_now.strftime('%Y-%m-%d_%H%M%S')
+                time_now_formatted = time_now.strftime('%Y%m%d_%H%M%S')
                 self.update_parsing_settings('suffix', '_' + time_now_formatted)
 
             elif self.__suffix_template == 'suffix_timestamp_custom':
                 time_now = datetime.datetime.now()
-                time_now_formatted = time_now.strftime('%Y-%m-%d_%H%M%S')
+                time_now_formatted = time_now.strftime('%Y%m%d_%H%M%S')
                 suffix_custom_value = self.lineEdit_suffix_custom_value.text()
                 self.update_parsing_settings('suffix', '_' + time_now_formatted + '_' + suffix_custom_value)
 
             elif self.__suffix_template == 'suffix_timestamp_custom_empty':
                 time_now = datetime.datetime.now()
-                time_now_formatted = time_now.strftime('%Y-%m-%d_%H%M%S')
+                time_now_formatted = time_now.strftime('%Y%m%d_%H%M%S')
                 self.update_parsing_settings('suffix', '_' + time_now_formatted)
 
             elif self.__suffix_template == 'empty':

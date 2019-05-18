@@ -31,7 +31,7 @@ __icon__ = "LimberDuck-converter-csv.ico"
 __summary__ = "Converter CSV by LimberDuck (pronounced *ˈlɪm.bɚ dʌk*) is a GUI tool which lets you convert multiple " \
               "large csv files to xlsx files."
 __uri__ = "https://github.com/LimberDuck"
-__version__ = "0.2.1"
+__version__ = "0.2.2"
 __release_date__ = "2019.5.18"
 __author__ = u"Damian Krawczyk"
 __email__ = "damian.krawczyk@limberduck.org"
