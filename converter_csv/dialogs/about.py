@@ -32,6 +32,7 @@ class About(QMessageBox):
         self.setWindowTitle("About")
         self.appName = __about__.__title__
         self.version = __about__.__version__
+        self.release_date = __about__.__release_date__
 
         website = __about__.__uri__
         email = __about__.__email__
@@ -43,8 +44,8 @@ class About(QMessageBox):
         msg_box.setTextFormat(Qt.RichText)
         # msg_box.setIconPixmap(QPixmap(ComicTaggerSettings.getGraphic('about.png')))
         msg_box.setText("<br>"
-                        + self.appName + " v" + self.version + "<br>"
-                        + copyright_info + "<br><br>"
+                        + self.appName + " v" + self.version + " [" + self.release_date + "] <br>"
+                        + "Copyright " + copyright_info + "<br><br>"
                         + "<a href='{0}'>{0}</a><br><br>".format(website)
                         + "<a href='mailto:{0}'>{0}</a><br><br>".format(email)
                         + "License: <a href='{0}'>{1}</a>".format(license_link, license_name))

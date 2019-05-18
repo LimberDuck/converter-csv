@@ -386,13 +386,18 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
 
         directories = file_dialog.getExistingDirectory(None, title, starting_directory, options=options)
 
-        self.set_target_directory(directories)
-        self.get_target_directory_from_file()
+        if directories:
+            self.set_target_directory(directories)
+            self.get_target_directory_from_file()
 
-        color = 'green'
-        info = 'Target directory changed from "' + old_target_directory + '" to "' + self.__target_directory + '"'
-        self.print_log(info, color)
-        self.__target_directory_changed = True
+            color = 'green'
+            info = 'Target directory changed from "' + old_target_directory + '" to "' + self.__target_directory + '"'
+            self.print_log(info, color)
+            self.__target_directory_changed = True
+        else:
+            info = 'Target directory not changed.'
+            color = 'black'
+            self.print_log(info, color=color)
 
     def open_files(self):
         """

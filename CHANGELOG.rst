@@ -5,6 +5,12 @@ Change Log
 This document records all notable changes to `converter-csv by LimberDuck <https://github.com/LimberDuck/converter-csv>`_.
 This project adheres to `Semantic Versioning <http://semver.org/>`_.
 
+0.2.1 (2019-05-18)
+---------------------
+
+* Cancel option handled if change target directory action has been taken.
+* About dialog window format changed to display release date.
+
 
 0.2.0 (2019-05-12)
 ---------------------
