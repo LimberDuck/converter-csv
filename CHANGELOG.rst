@@ -5,6 +5,11 @@ Change Log
 This document records all notable changes to `converter-csv by LimberDuck <https://github.com/LimberDuck/converter-csv>`_.
 This project adheres to `Semantic Versioning <http://semver.org/>`_.
 
+0.2.3 (2021-03-27)
+---------------------
+
+* Requirements updated with new version of pillow and pyinstaller.
+
 0.2.2 (2019-05-18)
 ---------------------
 
