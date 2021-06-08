@@ -7,7 +7,7 @@ jdcal==1.4
 macholib==1.11
 numpy==1.15.4
 pefile==2018.8.8
-Pillow==8.1.1
+Pillow==8.2.0
 PyInstaller==3.6
 PyQt5==5.11.3
 PyQt5-sip==4.19.13
