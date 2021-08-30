@@ -3,3 +3,6 @@ dist/
 *.spec
 .idea/
 __pycache__
+*.egg-info
+.vscode
+test_files

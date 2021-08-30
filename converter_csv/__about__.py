@@ -26,13 +26,12 @@ __all__ = [
 ]
 
 __title__ = "Converter CSV by LimberDuck"
-__package_name__ = "limberduck-converter-csv"
+__package_name__ = "converter-csv"
 __icon__ = "LimberDuck-converter-csv.ico"
-__summary__ = "Converter CSV by LimberDuck (pronounced *ˈlɪm.bɚ dʌk*) is a GUI tool which lets you convert multiple " \
-              "large csv files to xlsx files."
+__summary__ = "Converter CSV by LimberDuck is a GUI tool to convert multiple large csv files to xlsx files."
 __uri__ = "https://limberduck.org/en/latest/converter-csv"
-__version__ = "0.2.3"
-__release_date__ = "2021.3.27"
+__version__ = "0.3.0"
+__release_date__ = "2021.8.30"
 __author__ = u"Damian Krawczyk"
 __email__ = "damian.krawczyk@limberduck.org"
 __license_name__ = "GNU GPLv3"

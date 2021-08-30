@@ -19,6 +19,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-if __name__ == '__main__':
-    from converter_csv import app
+from converter_csv import app
+
+
+def main():
+
     app.main()
+
+
+if __name__ == '__main__':
+
+    main()
