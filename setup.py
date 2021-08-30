@@ -17,7 +17,7 @@ setuptools.setup(
     author_email="damian.krawczyk@limberduck.org",
     description="Converter CSV by LimberDuck is a GUI tool to convert multiple large csv files to xlsx files.",
     long_description=long_description,
-    long_description_content_type="text/x-rst",
+    long_description_content_type="text/markdown",
     url="https://github.com/LimberDuck/converter-csv",
     packages=setuptools.find_packages(),
     install_requires=required,
