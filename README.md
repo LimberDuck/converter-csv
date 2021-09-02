@@ -7,7 +7,7 @@ operating system no matter if it is Windows, MacOS or Linux. It's free
 and open source tool. The reason this tool was created is to speed-up
 your tasks.
 
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/converter-csv?logo=PyPI)](https://pypi.org/project/converter-csv/) [![License](https://img.shields.io/github/license/LimberDuck/converter-csv.svg)](https://github.com/LimberDuck/converter-csv/blob/main/LICENSE) [![Repo size](https://img.shields.io/github/repo-size/LimberDuck/converter-csv.svg)](https://github.com/LimberDuck/converter-csv) [![Code size](https://img.shields.io/github/languages/code-size/LimberDuck/converter-csv.svg)](https://github.com/LimberDuck/converter-csv) [![Supported platform](https://img.shields.io/badge/platform-windows%20%7C%20macos%20%7C%20linux-lightgrey.svg)](https://github.com/LimberDuck/converter-csv)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/converter-csv?logo=PyPI)](https://pypistats.org/packages/converter-csv) [![License](https://img.shields.io/github/license/LimberDuck/converter-csv.svg)](https://github.com/LimberDuck/converter-csv/blob/main/LICENSE) [![Repo size](https://img.shields.io/github/repo-size/LimberDuck/converter-csv.svg)](https://github.com/LimberDuck/converter-csv) [![Code size](https://img.shields.io/github/languages/code-size/LimberDuck/converter-csv.svg)](https://github.com/LimberDuck/converter-csv) [![Supported platform](https://img.shields.io/badge/platform-windows%20%7C%20macos%20%7C%20linux-lightgrey.svg)](https://github.com/LimberDuck/converter-csv)
 
 ![](https://user-images.githubusercontent.com/9287709/57588063-d4b2f280-750e-11e9-9ba8-e2d301d38cbc.png)
 
@@ -44,17 +44,52 @@ your tasks.
 
 1. Install **Converter CSV**
     
-    `pip install converter-csv`
+   `pip install converter-csv`
+
+   > To upgrade to newer version run:
+   > 
+   > `pip install -U converter-csv`
 
 2. Run **Converter CSV**
 
-    `converter-csv`
+   `converter-csv`
+   
+   > Optionally for Linux and macOS:
+   > 
+   > `converter-csv&`
+   > 
+   > Run with `&` at the end to start the process in the background.
+
+3. Make a shortcut with **Converter CSV**
+
+   **Windows:**
+   
+   - Run in cmd `where converter-csv.exe`
+   - Copy returned path.
+   - Go to e.g. to Desktop.
+   - Right click on Desktop and choose `New > Shortcut`.
+   - Paste returned path.
+   - Click `Next`, `Finish`.
+   
+   **Linux (Ubuntu) / macOS**
+   - Run in Terminal `which converter-csv`
+   - Run in Terminal `ln -s path_returned_in_previous_command ~/Desktop/`
+
+   **macOS**
+
+   - Run in Terminal `which converter-csv`
+   - Open `bin` folder where `converter-csv` is located.
+   - Right click on `converter-csv` and choose `Make alias`.
+   - Move your alias e.g. to Desktop.
 
 ### Additional steps
 
+<details>
+  <summary>Click to see additional steps for Linux (Ubuntu)</summary>
+
 #### Linux (Ubuntu)
 
-If you see below error:
+If you installed without python virtual environment, and you see below error:
 
 ```shell
 ~$ converter-csv
@@ -82,11 +117,13 @@ Available platform plugins are: eglfs, linuxfb, minimal, minimalegl, offscreen, 
 Aborted (core dumped)
 ```
 
-Run to fix the error:
+Run below to fix the error:
 
 ```shell
 sudo apt-get install --reinstall libxcb-xinerama0
 ```
+
+</details>
 
 ## Build executable file
 
