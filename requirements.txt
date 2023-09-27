@@ -2,3 +2,4 @@ chardet>=4.0.0
 imageio>=2.9.0
 PyQt5>=5.15.4
 XlsxWriter>=3.0.1
+pillow>=10.0.1 # not directly required, pinned by Snyk to avoid a vulnerability
