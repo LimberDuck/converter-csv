@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-u"""
+"""
 Converter CSV by LimberDuck (pronounced *ˈlɪm.bɚ dʌk*) is a GUI
 tool which lets you convert multiple large csv files to xlsx files.
 Copyright (C) 2018 Damian Krawczyk
@@ -36,26 +36,27 @@ import platform
 from converter_csv.dialogs import about
 from converter_csv import __about__
 
-class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
 
+class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
 
         self.__files_to_pars = []
-        self.__delimiter = ''
+        self.__delimiter = ""
         self.__parsing_settings = {}
-        self.__target_directory = ''
+        self.__target_directory = ""
         self.__target_directory_changed = False
         self.__file_conversion_counter = 0
-        self.__suffix = ''
-        self.__suffix_template = ''
+        self.__suffix = ""
+        self.__suffix_template = ""
 
-
-        self.parsing_thread = ParsingThread(files_to_pars=self.__files_to_pars,
-                                            target_directory=self.__target_directory,
-                                            target_directory_changed=self.__target_directory_changed,
-                                            parsing_settings=self.__parsing_settings)
+        self.parsing_thread = ParsingThread(
+            files_to_pars=self.__files_to_pars,
+            target_directory=self.__target_directory,
+            target_directory_changed=self.__target_directory_changed,
+            parsing_settings=self.__parsing_settings,
+        )
 
         self.actionOpen_file.triggered.connect(self.open_files)
         self.actionOpen_directory.triggered.connect(self.open_directory)
@@ -63,11 +64,15 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
 
         self.actionStart_conversion.triggered.connect(self.parsing_thread_start)
         self.actionChange_separator.triggered.connect(self.change_delimiter)
-        self.actionChange_target_directory.triggered.connect(self.change_target_directory)
+        self.actionChange_target_directory.triggered.connect(
+            self.change_target_directory
+        )
         self.actionOpen_target_directory.triggered.connect(self.open_target_directory)
         self.actionAbout.triggered.connect(self.open_dialog_about)
 
-        self.checkBox_suffix_timestamp.stateChanged.connect(self.suffix_timestamp_changed)
+        self.checkBox_suffix_timestamp.stateChanged.connect(
+            self.suffix_timestamp_changed
+        )
         self.checkBox_suffix_custom.stateChanged.connect(self.suffix_custom_changed)
 
         self.pushButton_start.clicked.connect(self.parsing_thread_start)
@@ -91,7 +96,7 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
             self.set_target_directory(source_file_path)
             self.get_target_directory_from_file()
 
-        self.set_delimiter(',')
+        self.set_delimiter(",")
         self.get_delimiter()
 
         self.progressBar.setRange(0, 10)
@@ -100,73 +105,91 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         """
         Function sets suffix appropriately if checkBox_suffix_timestamp has changed.
         """
-        if self.checkBox_suffix_timestamp.isChecked() and not self.checkBox_suffix_custom.isChecked():
+        if (
+            self.checkBox_suffix_timestamp.isChecked()
+            and not self.checkBox_suffix_custom.isChecked()
+        ):
             time_now = datetime.datetime.now()
-            time_now_formatted = time_now.strftime('%Y-%m-%d_%H%M%S')
-            self.change_suffix('_' + time_now_formatted)
-            self.__suffix_template = 'suffix_timestamp'
+            time_now_formatted = time_now.strftime("%Y-%m-%d_%H%M%S")
+            self.change_suffix("_" + time_now_formatted)
+            self.__suffix_template = "suffix_timestamp"
 
-        elif not self.checkBox_suffix_timestamp.isChecked() and self.checkBox_suffix_custom.isChecked():
+        elif (
+            not self.checkBox_suffix_timestamp.isChecked()
+            and self.checkBox_suffix_custom.isChecked()
+        ):
             suffix_custom_value = self.lineEdit_suffix_custom_value.text()
             if suffix_custom_value:
-                space = '_'
-                self.__suffix_template = 'suffix_custom'
+                space = "_"
+                self.__suffix_template = "suffix_custom"
             else:
-                space = ''
-                self.__suffix_template = 'suffix_custom_empty'
+                space = ""
+                self.__suffix_template = "suffix_custom_empty"
             self.change_suffix(space + suffix_custom_value)
 
-        elif self.checkBox_suffix_timestamp.isChecked() and self.checkBox_suffix_custom.isChecked():
+        elif (
+            self.checkBox_suffix_timestamp.isChecked()
+            and self.checkBox_suffix_custom.isChecked()
+        ):
             time_now = datetime.datetime.now()
-            time_now_formatted = time_now.strftime('%Y-%m-%d_%H%M%S')
+            time_now_formatted = time_now.strftime("%Y-%m-%d_%H%M%S")
             suffix_custom_value = self.lineEdit_suffix_custom_value.text()
             if suffix_custom_value:
-                space = '_'
-                self.__suffix_template = 'suffix_custom_timestamp'
+                space = "_"
+                self.__suffix_template = "suffix_custom_timestamp"
             else:
-                space = ''
-                self.__suffix_template = 'suffix_custom_empty_timestamp'
-            self.change_suffix(space + suffix_custom_value + '_' + time_now_formatted)
+                space = ""
+                self.__suffix_template = "suffix_custom_empty_timestamp"
+            self.change_suffix(space + suffix_custom_value + "_" + time_now_formatted)
 
         else:
-            self.change_suffix('')
-            self.__suffix_template = 'empty'
+            self.change_suffix("")
+            self.__suffix_template = "empty"
 
     def suffix_custom_changed(self):
         """
         Function sets suffix appropriately if checkBox_suffix_custom has changed.
         """
-        if self.checkBox_suffix_custom.isChecked() and not self.checkBox_suffix_timestamp.isChecked():
+        if (
+            self.checkBox_suffix_custom.isChecked()
+            and not self.checkBox_suffix_timestamp.isChecked()
+        ):
             suffix_custom_value = self.lineEdit_suffix_custom_value.text()
             if suffix_custom_value:
-                space = '_'
-                self.__suffix_template = 'suffix_custom'
+                space = "_"
+                self.__suffix_template = "suffix_custom"
             else:
-                space = ''
-                self.__suffix_template = 'suffix_custom_empty'
+                space = ""
+                self.__suffix_template = "suffix_custom_empty"
             self.change_suffix(space + suffix_custom_value)
 
-        elif not self.checkBox_suffix_custom.isChecked() and self.checkBox_suffix_timestamp.isChecked():
+        elif (
+            not self.checkBox_suffix_custom.isChecked()
+            and self.checkBox_suffix_timestamp.isChecked()
+        ):
             time_now = datetime.datetime.now()
-            time_now_formatted = time_now.strftime('%Y-%m-%d_%H%M%S')
-            self.change_suffix('_' + time_now_formatted)
-            self.__suffix_template = 'suffix_timestamp'
+            time_now_formatted = time_now.strftime("%Y-%m-%d_%H%M%S")
+            self.change_suffix("_" + time_now_formatted)
+            self.__suffix_template = "suffix_timestamp"
 
-        elif self.checkBox_suffix_custom.isChecked() and self.checkBox_suffix_timestamp.isChecked():
+        elif (
+            self.checkBox_suffix_custom.isChecked()
+            and self.checkBox_suffix_timestamp.isChecked()
+        ):
             time_now = datetime.datetime.now()
-            time_now_formatted = time_now.strftime('%Y-%m-%d_%H%M%S')
+            time_now_formatted = time_now.strftime("%Y-%m-%d_%H%M%S")
             suffix_custom_value = self.lineEdit_suffix_custom_value.text()
             if suffix_custom_value:
-                space = '_'
-                self.__suffix_template = 'suffix_timestamp_custom'
+                space = "_"
+                self.__suffix_template = "suffix_timestamp_custom"
             else:
-                space = ''
-                self.__suffix_template = 'suffix_timestamp_custom_empty'
-            self.change_suffix('_' + time_now_formatted + space + suffix_custom_value)
+                space = ""
+                self.__suffix_template = "suffix_timestamp_custom_empty"
+            self.change_suffix("_" + time_now_formatted + space + suffix_custom_value)
 
         else:
-            self.change_suffix('')
-            self.__suffix_template = 'empty'
+            self.change_suffix("")
+            self.__suffix_template = "empty"
 
     def open_dialog_about(self):
         """
@@ -182,70 +205,82 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         self.statusbar.clearMessage()
         self.progressBar.setVisible(True)
 
-        info = 'Converting started:'
-        color = 'black'
+        info = "Converting started:"
+        color = "black"
         self.print_log(info, color=color)
         try:
-            if self.__suffix_template == 'suffix_timestamp':
+            if self.__suffix_template == "suffix_timestamp":
                 time_now = datetime.datetime.now()
-                time_now_formatted = time_now.strftime('%Y%m%d_%H%M%S')
-                self.update_parsing_settings('suffix', '_' + time_now_formatted)
+                time_now_formatted = time_now.strftime("%Y%m%d_%H%M%S")
+                self.update_parsing_settings("suffix", "_" + time_now_formatted)
 
-            elif self.__suffix_template == 'suffix_custom':
+            elif self.__suffix_template == "suffix_custom":
                 suffix_custom_value = self.lineEdit_suffix_custom_value.text()
-                self.update_parsing_settings('suffix', '_' + suffix_custom_value)
+                self.update_parsing_settings("suffix", "_" + suffix_custom_value)
 
-            elif self.__suffix_template == 'suffix_custom_empty':
-                self.update_parsing_settings('suffix', '')
+            elif self.__suffix_template == "suffix_custom_empty":
+                self.update_parsing_settings("suffix", "")
 
-            elif self.__suffix_template == 'suffix_custom_timestamp':
+            elif self.__suffix_template == "suffix_custom_timestamp":
                 time_now = datetime.datetime.now()
-                time_now_formatted = time_now.strftime('%Y%m%d_%H%M%S')
+                time_now_formatted = time_now.strftime("%Y%m%d_%H%M%S")
                 suffix_custom_value = self.lineEdit_suffix_custom_value.text()
-                self.update_parsing_settings('suffix', '_' + suffix_custom_value + '_' + time_now_formatted)
+                self.update_parsing_settings(
+                    "suffix", "_" + suffix_custom_value + "_" + time_now_formatted
+                )
 
-            elif self.__suffix_template == 'suffix_custom_empty_timestamp':
+            elif self.__suffix_template == "suffix_custom_empty_timestamp":
                 time_now = datetime.datetime.now()
-                time_now_formatted = time_now.strftime('%Y%m%d_%H%M%S')
-                self.update_parsing_settings('suffix', '_' + time_now_formatted)
+                time_now_formatted = time_now.strftime("%Y%m%d_%H%M%S")
+                self.update_parsing_settings("suffix", "_" + time_now_formatted)
 
-            elif self.__suffix_template == 'suffix_timestamp_custom':
+            elif self.__suffix_template == "suffix_timestamp_custom":
                 time_now = datetime.datetime.now()
-                time_now_formatted = time_now.strftime('%Y%m%d_%H%M%S')
+                time_now_formatted = time_now.strftime("%Y%m%d_%H%M%S")
                 suffix_custom_value = self.lineEdit_suffix_custom_value.text()
-                self.update_parsing_settings('suffix', '_' + time_now_formatted + '_' + suffix_custom_value)
+                self.update_parsing_settings(
+                    "suffix", "_" + time_now_formatted + "_" + suffix_custom_value
+                )
 
-            elif self.__suffix_template == 'suffix_timestamp_custom_empty':
+            elif self.__suffix_template == "suffix_timestamp_custom_empty":
                 time_now = datetime.datetime.now()
-                time_now_formatted = time_now.strftime('%Y%m%d_%H%M%S')
-                self.update_parsing_settings('suffix', '_' + time_now_formatted)
+                time_now_formatted = time_now.strftime("%Y%m%d_%H%M%S")
+                self.update_parsing_settings("suffix", "_" + time_now_formatted)
 
-            elif self.__suffix_template == 'empty':
-                self.update_parsing_settings('suffix', '')
+            elif self.__suffix_template == "empty":
+                self.update_parsing_settings("suffix", "")
 
-
-            self.parsing_thread = ParsingThread(files_to_pars=self.__files_to_pars,
-                                                target_directory=self.__target_directory,
-                                                target_directory_changed=self.__target_directory_changed,
-                                                parsing_settings=self.__parsing_settings)
+            self.parsing_thread = ParsingThread(
+                files_to_pars=self.__files_to_pars,
+                target_directory=self.__target_directory,
+                target_directory_changed=self.__target_directory_changed,
+                parsing_settings=self.__parsing_settings,
+            )
             self.parsing_thread.start()
             self.parsing_thread.signal.connect(self.parsing_thread_done)
 
             self.parsing_thread.progress.connect(self.conversion_progress)
-            self.parsing_thread.file_conversion_ended.connect(self.file_conversion_ended)
+            self.parsing_thread.file_conversion_ended.connect(
+                self.file_conversion_ended
+            )
 
         except Exception as e:
-            color = 'black'
-            self.print_log('\nUps... ERROR occurred. \n\n' + str(e), color=color)
+            color = "black"
+            self.print_log("\nUps... ERROR occurred. \n\n" + str(e), color=color)
             traceback.print_exc()
-            print('>>>', e, '<<<')
+            print(">>>", e, "<<<")
 
     def file_conversion_ended(self):
         """
         Function sends notification via status bar about ending of conversion for each input file.
         """
         self.__file_conversion_counter += 1
-        info = str(self.__file_conversion_counter) + ' of ' + str(len(self.__files_to_pars)) + ' converted'
+        info = (
+            str(self.__file_conversion_counter)
+            + " of "
+            + str(len(self.__files_to_pars))
+            + " converted"
+        )
         self.statusbar.showMessage(info)
         self.statusbar.repaint()
 
@@ -262,14 +297,14 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         self.progressBar.setValue(row_number)
 
     def parsing_thread_done(self, info):
-        if '[action=start]' in info:
-            color = 'green'
+        if "[action=start]" in info:
+            color = "green"
             self.print_log(info, color)
-        elif '[action=end]' in info:
-            color = 'green'
+        elif "[action=end]" in info:
+            color = "green"
             self.print_log(info, color)
         else:
-            color = 'black'
+            color = "black"
             self.print_log(info, color)
 
     def update_parsing_settings(self, setting_name, setting_value):
@@ -286,7 +321,7 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         :param suffix_value: input suffix
         """
         self.__suffix = suffix_value
-        self.update_parsing_settings('suffix', suffix_value)
+        self.update_parsing_settings("suffix", suffix_value)
 
     def change_suffix(self, suffix_value_new):
         """
@@ -300,7 +335,7 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
 
         self.set_suffix(new_suffix)
 
-        color = 'green'
+        color = "green"
         info = 'Suffix changed from "' + old_suffix + '" to "' + self.__suffix + '"'
         self.print_log(info, color)
 
@@ -311,7 +346,7 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         :param delimiter_value: input delimiter
         """
         self.__delimiter = delimiter_value
-        self.update_parsing_settings('csv_delimiter', delimiter_value)
+        self.update_parsing_settings("csv_delimiter", delimiter_value)
 
     def get_delimiter(self):
         """
@@ -330,8 +365,14 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
 
         self.set_delimiter(new_delimiter)
 
-        color = 'green'
-        info = 'Delimiter changed from "' + old_delimiter + '" to "' + self.__delimiter + '"'
+        color = "green"
+        info = (
+            'Delimiter changed from "'
+            + old_delimiter
+            + '" to "'
+            + self.__delimiter
+            + '"'
+        )
         self.print_log(info, color)
 
     def set_target_directory(self, target_directory_value):
@@ -360,12 +401,14 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         information is displayed in GUI.
 
         """
-        number_of_subdirectories = self.check_if_subdirectory_exist(self.__target_directory)
+        number_of_subdirectories = self.check_if_subdirectory_exist(
+            self.__target_directory
+        )
         # print(number_of_subdirectories)
         if number_of_subdirectories:
-            info = ' (and subdirectories)'
+            info = " (and subdirectories)"
         else:
-            info = ''
+            info = ""
 
         self.lineEdit_target_directory.setText(self.__target_directory + info)
 
@@ -377,26 +420,34 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         """
         old_target_directory = self.__target_directory
 
-        title = 'Choose new target directory'
-        starting_directory = ''
+        title = "Choose new target directory"
+        starting_directory = ""
         options = QFileDialog.Options()
         options |= QFileDialog.ShowDirsOnly
 
         file_dialog = QFileDialog()
 
-        directories = file_dialog.getExistingDirectory(None, title, starting_directory, options=options)
+        directories = file_dialog.getExistingDirectory(
+            None, title, starting_directory, options=options
+        )
 
         if directories:
             self.set_target_directory(directories)
             self.get_target_directory_from_file()
 
-            color = 'green'
-            info = 'Target directory changed from "' + old_target_directory + '" to "' + self.__target_directory + '"'
+            color = "green"
+            info = (
+                'Target directory changed from "'
+                + old_target_directory
+                + '" to "'
+                + self.__target_directory
+                + '"'
+            )
             self.print_log(info, color)
             self.__target_directory_changed = True
         else:
-            info = 'Target directory not changed.'
-            color = 'black'
+            info = "Target directory not changed."
+            color = "black"
             self.print_log(info, color=color)
 
     def open_files(self):
@@ -405,22 +456,24 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
 
         Possible to select one or more files.
         """
-        info = 'File\-s opening.'
-        color = 'black'
+        info = "File\-s opening."
+        color = "black"
         self.print_log(info, color=color)
 
-        extension = '*.csv'
+        extension = "*.csv"
 
-        title = 'Open {0} files'.format(extension)
-        starting_directory = ''
-        file_filter = 'CSV ({0})'.format(extension)
+        title = "Open {0} files".format(extension)
+        starting_directory = ""
+        file_filter = "CSV ({0})".format(extension)
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
 
         file_dialog = QFileDialog()
         file_dialog.setFileMode(QFileDialog.ExistingFiles)
 
-        files = file_dialog.getOpenFileNames(self, title, starting_directory, filter=file_filter, options=options)
+        files = file_dialog.getOpenFileNames(
+            self, title, starting_directory, filter=file_filter, options=options
+        )
         files_only = files[0]
         # print(len(files_only),files_only)
         if len(files_only):
@@ -439,8 +492,8 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
             self.__target_directory_changed = False
         else:
             number_of_files = 0
-            info = 'Selected {0} files.'.format(str(number_of_files))
-            color = 'black'
+            info = "Selected {0} files.".format(str(number_of_files))
+            color = "black"
             self.print_log(info, color=color)
 
     @staticmethod
@@ -452,7 +505,7 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         :return: 0 if there is no subdirectories
                  number > 0 if there is any directory, where number gives information about number of subdirectories.
         """
-        pattern = os.path.join(main_directory, '*')
+        pattern = os.path.join(main_directory, "*")
         number_of_directories = 0
         for candidate in glob.glob(pattern):
             if os.path.isdir(candidate):
@@ -466,26 +519,31 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
 
         Possible to get files from selected directory and subdirectories.
         """
-        info = 'Files from directory and subdirectories opening.'
-        color = 'black'
+        info = "Files from directory and subdirectories opening."
+        color = "black"
         self.print_log(info, color=color)
 
-        extension = '*.csv'
+        extension = "*.csv"
 
-        title = 'Open {0} files directory'.format(extension)
-        starting_directory = ''
+        title = "Open {0} files directory".format(extension)
+        starting_directory = ""
         options = QFileDialog.Options()
         options |= QFileDialog.ShowDirsOnly
 
         file_dialog = QFileDialog()
-        directories = file_dialog.getExistingDirectory(None, title, starting_directory, options=options)
+        directories = file_dialog.getExistingDirectory(
+            None, title, starting_directory, options=options
+        )
         os_separator = os.path.sep
 
         if directories:
             self.set_target_directory(directories)
             self.get_target_directory_from_directory()
 
-            files = glob.glob(directories + os_separator + '**' + os_separator + extension, recursive=True)
+            files = glob.glob(
+                directories + os_separator + "**" + os_separator + extension,
+                recursive=True,
+            )
             print(files)
             self.list_of_files_to_pars(files)
             self.pushButton_start.setEnabled(True)
@@ -493,8 +551,8 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
 
         else:
             number_of_files = 0
-            info = 'Selected {0} files.'.format(str(number_of_files))
-            color = 'black'
+            info = "Selected {0} files.".format(str(number_of_files))
+            color = "black"
             self.print_log(info, color=color)
 
     def open_target_directory(self):
@@ -506,16 +564,17 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         """
 
         os_name = platform.system()
-        if os_name == 'Darwin':
-            subprocess.call(['open', self.__target_directory])
-        elif os_name == 'Windows':
-            subprocess.call(['explorer', self.__target_directory])
-        elif os_name == 'Linux':
-            subprocess.call(['nautilus', self.__target_directory])
+        if os_name == "Darwin":
+            subprocess.call(["open", self.__target_directory])
+        elif os_name == "Windows":
+            subprocess.call(["explorer", self.__target_directory])
+        elif os_name == "Linux":
+            subprocess.call(["nautilus", self.__target_directory])
         else:
-            info = 'Can\'t open directory, your Operating System {0} is not supported. Please report it to us.'.format(
-                os_name)
-            color = 'red'
+            info = "Can't open directory, your Operating System {0} is not supported. Please report it to us.".format(
+                os_name
+            )
+            color = "red"
             self.print_log(info, color=color)
 
     def print_log(self, log_value, color):
@@ -525,16 +584,21 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         :param log_value: information to display
         :param color: color for given information
         """
-        if color == 'black':
+        if color == "black":
             color_set = QColor(0, 0, 0)
-        elif color == 'red':
+        elif color == "red":
             color_set = QColor(230, 30, 30)
-        elif color == 'green':
+        elif color == "green":
             color_set = QColor(60, 160, 60)
         else:
             color_set = QColor(0, 0, 0)
 
-        log_output = '[' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f') + '] ' + log_value
+        log_output = (
+            "["
+            + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+            + "] "
+            + log_value
+        )
 
         self.textEdit_progress.setTextColor(color_set)
         self.textEdit_progress.append(log_output)
@@ -545,9 +609,9 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         """
         Function to exit from application.
         """
-        info = 'Exit application'
+        info = "Exit application"
         print(info)
-        color = 'black'
+        color = "black"
         self.print_log(info, color=color)
         self.close()
 
@@ -561,31 +625,40 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         """
         number_of_files = len(files)
         if number_of_files == 1:
-            suffix = ''
+            suffix = ""
         else:
-            suffix = 's'
-        info = 'Selected {0} file{1}:'.format(str(number_of_files), suffix)
-        color = 'black'
+            suffix = "s"
+        info = "Selected {0} file{1}:".format(str(number_of_files), suffix)
+        color = "black"
         self.print_log(info, color=color)
         self.__files_to_pars = files
 
-        color = 'black'
+        color = "black"
         for file in self.__files_to_pars:
             # self.print_log(file, color=color)
-            action_name = 'info '
-            notification_info = '[action={0}] [source_file={1}]'.format(action_name, file)
+            action_name = "info "
+            notification_info = "[action={0}] [source_file={1}]".format(
+                action_name, file
+            )
             self.print_log(notification_info, color=color)
 
         self.__file_conversion_counter = 0
 
 
 class ParsingThread(QThread):
-    signal = pyqtSignal('PyQt_PyObject')
+    signal = pyqtSignal("PyQt_PyObject")
     progress = pyqtSignal(int, int)
     file_conversion_ended = pyqtSignal(int)
     file_conversion_started = pyqtSignal(int)
 
-    def __init__(self, files_to_pars, target_directory, target_directory_changed, parsing_settings, parent=None):
+    def __init__(
+        self,
+        files_to_pars,
+        target_directory,
+        target_directory_changed,
+        parsing_settings,
+        parent=None,
+    ):
         super(ParsingThread, self).__init__(parent)
 
         self.files_to_pars = files_to_pars
@@ -597,52 +670,81 @@ class ParsingThread(QThread):
         files_to_pars = self.files_to_pars
         target_directory_changed = self.target_directory_changed
         target_directory = self.target_directory
-        source_file_delimiter = self.parsing_settings['csv_delimiter']
+        source_file_delimiter = self.parsing_settings["csv_delimiter"]
 
-        if 'suffix' in self.parsing_settings:
-            suffix = self.parsing_settings['suffix']
+        if "suffix" in self.parsing_settings:
+            suffix = self.parsing_settings["suffix"]
             print("suffix: ", suffix)
         else:
-            suffix = ''
+            suffix = ""
 
         for source_file_name_with_path in files_to_pars:
             source_file_name = os.path.basename(source_file_name_with_path)
             source_file_name_without_extension = os.path.splitext(source_file_name)[0]
             source_file_extension = os.path.splitext(source_file_name)[1]
-            source_file_path = os.path.dirname(os.path.abspath(source_file_name_with_path))
-            target_file_name = source_file_name_without_extension + suffix + '.xlsx'
-            target_file_path = os.path.dirname(os.path.abspath(source_file_name_with_path))
+            source_file_path = os.path.dirname(
+                os.path.abspath(source_file_name_with_path)
+            )
+            target_file_name = source_file_name_without_extension + suffix + ".xlsx"
+            target_file_path = os.path.dirname(
+                os.path.abspath(source_file_name_with_path)
+            )
 
             if target_directory_changed:
                 directory_to_save = target_directory
             else:
                 directory_to_save = target_file_path
 
-            final_path_to_save = directory_to_save + '/' + target_file_name
+            final_path_to_save = directory_to_save + "/" + target_file_name
 
             start_time = time.time()
 
-            self.log_emitter('start', source_file_name)
+            self.log_emitter("start", source_file_name)
             self.file_conversion_started.emit(1)
-            self.log_emitter('info', source_file_name, '[source_file_path={0}]'.format(source_file_path))
-            self.log_emitter('info', source_file_name, '[source_file_extension={0}]'.format(source_file_extension))
+            self.log_emitter(
+                "info",
+                source_file_name,
+                "[source_file_path={0}]".format(source_file_path),
+            )
+            self.log_emitter(
+                "info",
+                source_file_name,
+                "[source_file_extension={0}]".format(source_file_extension),
+            )
 
             source_file_size = utilities.size_of_file_human(source_file_name_with_path)
-            self.log_emitter('info', source_file_name, '[source_file_size={0}]'.format(source_file_size))
+            self.log_emitter(
+                "info",
+                source_file_name,
+                "[source_file_size={0}]".format(source_file_size),
+            )
 
-            source_file_encoding = utilities.check_file_encoding(source_file_name_with_path)
-            self.log_emitter('info', source_file_name, '[source_file_encoding={0}]'.format(source_file_encoding))
+            source_file_encoding = utilities.check_file_encoding(
+                source_file_name_with_path
+            )
+            self.log_emitter(
+                "info",
+                source_file_name,
+                "[source_file_encoding={0}]".format(source_file_encoding),
+            )
 
-            source_file_lines_number = utilities.csv_file_row_counter(source_file_name_with_path, source_file_delimiter)
-            self.log_emitter('info', source_file_name, '[source_file_lines_number={0}]'.format(str(
-                source_file_lines_number)))
+            source_file_lines_number = utilities.csv_file_row_counter(
+                source_file_name_with_path, source_file_delimiter
+            )
+            self.log_emitter(
+                "info",
+                source_file_name,
+                "[source_file_lines_number={0}]".format(str(source_file_lines_number)),
+            )
 
-            file = open(source_file_name_with_path, 'r', encoding=source_file_encoding)
-            csv.register_dialect('colons', delimiter=source_file_delimiter)
-            reader = csv.reader(file, dialect='colons')
+            file = open(source_file_name_with_path, "r", encoding=source_file_encoding)
+            csv.register_dialect("colons", delimiter=source_file_delimiter)
+            reader = csv.reader(file, dialect="colons")
 
-            workbook = xlsxwriter.Workbook(final_path_to_save, {'constant_memory': True})
-            worksheet = workbook.add_worksheet('details')
+            workbook = xlsxwriter.Workbook(
+                final_path_to_save, {"constant_memory": True}
+            )
+            worksheet = workbook.add_worksheet("details")
 
             for row_index, row in enumerate(reader):
                 row_info = row_index + 1
@@ -652,20 +754,36 @@ class ParsingThread(QThread):
                     # print(">",cell,"<")
                     worksheet.write(row_index, column_index, cell)
 
-            self.log_emitter('info', source_file_name, '[target_file_name={0}] [file saving]'.format(target_file_name))
+            self.log_emitter(
+                "info",
+                source_file_name,
+                "[target_file_name={0}] [file saving]".format(target_file_name),
+            )
             workbook.close()
 
-            self.log_emitter('end', source_file_name, '[target_file_name={0}] [file saved]'.format(target_file_name))
+            self.log_emitter(
+                "end",
+                source_file_name,
+                "[target_file_name={0}] [file saved]".format(target_file_name),
+            )
 
             end_time = time.time()
             elapsed_time = end_time - start_time
-            elapsed_time_parsed = time.strftime('%H:%M:%S', time.gmtime(elapsed_time))
+            elapsed_time_parsed = time.strftime("%H:%M:%S", time.gmtime(elapsed_time))
 
-            self.log_emitter('info', source_file_name, '[elapsed_time={0}]'.format(elapsed_time_parsed))
-            self.log_emitter('info', source_file_name, '[target_file_path={0}]'.format(directory_to_save))
+            self.log_emitter(
+                "info",
+                source_file_name,
+                "[elapsed_time={0}]".format(elapsed_time_parsed),
+            )
+            self.log_emitter(
+                "info",
+                source_file_name,
+                "[target_file_path={0}]".format(directory_to_save),
+            )
             self.file_conversion_ended.emit(1)
 
-    def log_emitter(self, action_name, source_file_name, additional_info=''):
+    def log_emitter(self, action_name, source_file_name, additional_info=""):
         """
         Function emits information from thread to display it in GUI.
 
@@ -673,8 +791,9 @@ class ParsingThread(QThread):
         :param source_file_name: information about related source file
         :param additional_info: add more information if needed
         """
-        notification = '[action={0}] [source_file_name={1}] {2}'.format(action_name, source_file_name,
-                                                                        additional_info)
+        notification = "[action={0}] [source_file_name={1}] {2}".format(
+            action_name, source_file_name, additional_info
+        )
         self.signal.emit(notification)
 
 

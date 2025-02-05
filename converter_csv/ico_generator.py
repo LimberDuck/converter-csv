@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-u"""
+"""
 Converter CSV by LimberDuck (pronounced *ˈlɪm.bɚ dʌk*) is a GUI
 tool which lets you convert multiple large csv files to xlsx files.
 Copyright (C) 2018 Damian Krawczyk
@@ -20,6 +20,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from converter_csv import utilities
 
-png_filename = '../icons/LimberDuck-converter-csv.png'
+png_filename = "../icons/LimberDuck-converter-csv.png"
 
 print(utilities.file_to_base64(utilities.png_to_ico(png_filename)))

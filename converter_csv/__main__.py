@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-u"""
+"""
 Converter CSV by LimberDuck (pronounced *ˈlɪm.bɚ dʌk*) is a GUI
 tool which lets you convert multiple large csv files to xlsx files.
 Copyright (C) 2018 Damian Krawczyk
@@ -27,6 +27,6 @@ def main():
     app.main()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     main()

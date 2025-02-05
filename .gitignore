@@ -6,3 +6,4 @@ __pycache__
 *.egg-info
 .vscode
 test_files
+.DS_Store
