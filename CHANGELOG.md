@@ -21,7 +21,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - imageio>=2.37.0
     - PyQt5>=5.15.11
     - XlsxWriter>=3.2.2
-- tests for python: 3.10, 3.11, 3.12, 3.13
+- tests for python
+  - added: 3.10, 3.11, 3.12, 3.13
+  - removed: 3.6, 3.7
 
 ## [0.3.0] - 2021-08-30
 
