@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-u"""
+"""
 Converter CSV by LimberDuck (pronounced *ˈlɪm.bɚ dʌk*) is a GUI
 tool which lets you convert multiple large csv files to xlsx files.
 Copyright (C) 2018 Damian Krawczyk
@@ -32,7 +32,7 @@ def file_to_base64(filename):
     :param filename: input file name with path
     :return: base64 string
     """
-    with open(filename, 'rb') as image_file:
+    with open(filename, "rb") as image_file:
         encoded_string = base64.b64encode(image_file.read())
         return encoded_string
 
@@ -45,7 +45,7 @@ def png_to_ico(filename):
     :return: ico file name
     """
     filename_without_extension = os.path.splitext(filename)[0]
-    target_file_name = filename_without_extension + '.ico'
+    target_file_name = filename_without_extension + ".ico"
     img = imageio.imread(filename)
     imageio.imwrite(target_file_name, img)
 
@@ -65,13 +65,14 @@ def base64_to_ico(ico_in_base64, filename):
     :return: ico file name
     """
     filename_without_extension = os.path.splitext(filename)[0]
-    target_file_name = filename_without_extension + '.ico'
+    target_file_name = filename_without_extension + ".ico"
     icondata = base64.b64decode(ico_in_base64)
-    iconfile = open(target_file_name, 'wb')
+    iconfile = open(target_file_name, "wb")
     iconfile.write(icondata)
     iconfile.close()
 
     return target_file_name
+
 
 def check_file_encoding(file):
     """
@@ -80,14 +81,14 @@ def check_file_encoding(file):
     :param file: input file path
     :return: file encoding eg. 'ascii', 'utf8'
     """
-    raw_data = open(file, 'rb').read()
+    raw_data = open(file, "rb").read()
     result = chardet.detect(raw_data)
-    char_enc = result['encoding']
+    char_enc = result["encoding"]
 
     return char_enc
 
 
-def size_of_file_human(file, suffix='B'):
+def size_of_file_human(file, suffix="B"):
     """
     Function convert provided file size into human readable form
     :param file:  source file name with path
@@ -96,11 +97,11 @@ def size_of_file_human(file, suffix='B'):
     """
     num = os.path.getsize(file)
 
-    for unit in [' b', ' Ki', ' Mi', ' Gi', ' Ti', ' Pi', ' Ei', ' Zi']:
+    for unit in [" b", " Ki", " Mi", " Gi", " Ti", " Pi", " Ei", " Zi"]:
         if abs(num) < 1024.0:
-            return '%3.1f%s%s' % (num, unit, suffix)
+            return "%3.1f%s%s" % (num, unit, suffix)
         num /= 1024.0
-    return '%.1f%s%s' % (num, 'Yi', suffix)
+    return "%.1f%s%s" % (num, "Yi", suffix)
 
 
 def csv_file_row_counter(file, source_file_delimiter):
@@ -112,9 +113,9 @@ def csv_file_row_counter(file, source_file_delimiter):
     :return: number of rows
     """
     source_file_encoding = check_file_encoding(file)
-    file = open(file, 'r', encoding=source_file_encoding)
-    csv.register_dialect('colons', delimiter=source_file_delimiter)
-    reader = csv.reader(file, dialect='colons')
+    file = open(file, "r", encoding=source_file_encoding)
+    csv.register_dialect("colons", delimiter=source_file_delimiter)
+    reader = csv.reader(file, dialect="colons")
 
     row_count = sum(1 for row in reader)
     return row_count

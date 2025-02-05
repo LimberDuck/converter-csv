@@ -7,7 +7,11 @@ operating system no matter if it is Windows, MacOS or Linux. It's free
 and open source tool. The reason this tool was created is to speed-up
 your tasks.
 
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/converter-csv?logo=PyPI)](https://pypistats.org/packages/converter-csv) [![License](https://img.shields.io/github/license/LimberDuck/converter-csv.svg)](https://github.com/LimberDuck/converter-csv/blob/main/LICENSE) [![Repo size](https://img.shields.io/github/repo-size/LimberDuck/converter-csv.svg)](https://github.com/LimberDuck/converter-csv) [![Code size](https://img.shields.io/github/languages/code-size/LimberDuck/converter-csv.svg)](https://github.com/LimberDuck/converter-csv) [![Supported platform](https://img.shields.io/badge/platform-windows%20%7C%20macos%20%7C%20linux-lightgrey.svg)](https://github.com/LimberDuck/converter-csv)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/converter-csv?logo=PyPI)](https://pypistats.org/packages/converter-csv)
+[![License](https://img.shields.io/github/license/LimberDuck/converter-csv.svg)](https://github.com/LimberDuck/converter-csv/blob/main/LICENSE)
+[![Repo size](https://img.shields.io/github/repo-size/LimberDuck/converter-csv.svg)](https://github.com/LimberDuck/converter-csv)
+[![Code size](https://img.shields.io/github/languages/code-size/LimberDuck/converter-csv.svg)](https://github.com/LimberDuck/converter-csv)
+[![Supported platform](https://img.shields.io/badge/platform-windows%20%7C%20macos%20%7C%20linux-lightgrey.svg)](https://github.com/LimberDuck/converter-csv)
 
 ![](https://user-images.githubusercontent.com/9287709/57588063-d4b2f280-750e-11e9-9ba8-e2d301d38cbc.png)
 
@@ -60,7 +64,7 @@ your tasks.
    > 
    > Run with `&` at the end to start the process in the background.
 
-3. Make a shortcut with **Converter CSV**
+3. Make a shortcut for **Converter CSV**
 
    **Windows:**
    
@@ -189,13 +193,13 @@ sudo apt-get install --reinstall libxcb-xinerama0
    pip install -r requirements.txt
    ```
 
-6. Run **Converter CSV** using below command
+3. Run **Converter CSV** using below command
 
    ```
    python -m converter_csv
    ```
 
-7. Upgrade setuptools using below command
+4. Upgrade setuptools using below command
 
    ```
    pip install --upgrade setuptools
@@ -207,13 +211,13 @@ sudo apt-get install --reinstall libxcb-xinerama0
    pip install PyInstaller
    ```
 
-8. Build your own executable file using below command
+6. Build your own executable file using below command
 
    ```
    pyinstaller --onefile --windowed --icon=./icons/LimberDuck-converter-csv.ico --name converter-csv converter_csv/__main__.py
    ```
 
-9. Go to `dist` catalog to find executable file `converter-csv`.
+7. Go to `dist` catalog to find executable file `converter-csv`.
 
 </details>
 
@@ -276,8 +280,10 @@ GNU GPLv3: [LICENSE].
 
 ### Authors
 
-[Damian Krawczyk] created **Converter CSV** by LimberDuck.
+[Damian Krawczyk] created **[Converter CSV]** by [LimberDuck].
 
 [Damian Krawczyk]: https://damiankrawczyk.com
+[Converter CSV]: https://limberduck.org/en/latest/tools/converter-csv
+[LimberDuck]: https://limberduck.org
 [CHANGELOG]: https://github.com/LimberDuck/converter-csv/blob/master/CHANGELOG.md
 [LICENSE]: https://github.com/LimberDuck/converter-csv/blob/master/LICENSE
