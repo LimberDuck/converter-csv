@@ -7,11 +7,14 @@ operating system no matter if it is Windows, MacOS or Linux. It's free
 and open source tool. The reason this tool was created is to speed-up
 your tasks.
 
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/converter-csv?logo=PyPI)](https://pypistats.org/packages/converter-csv)
+[![pepy - Downloads](https://img.shields.io/pepy/dt/converter-csv?logo=PyPI)](https://pepy.tech/projects/converter-csv) [![PyPI Downloads](https://static.pepy.tech/badge/converter-csv/month)](https://pepy.tech/projects/converter-csv)
+[![Latest Release version](https://img.shields.io/github/v/release/LimberDuck/converter-csv?label=Latest%20release)](https://github.com/LimberDuck/converter-csv/releases) 
+[![GitHub Release Date](https://img.shields.io/github/release-date/limberduck/converter-csv?label=released&logo=GitHub)](https://github.com/LimberDuck/converter-csv/releases)
 [![License](https://img.shields.io/github/license/LimberDuck/converter-csv.svg)](https://github.com/LimberDuck/converter-csv/blob/main/LICENSE)
 [![Repo size](https://img.shields.io/github/repo-size/LimberDuck/converter-csv.svg)](https://github.com/LimberDuck/converter-csv)
 [![Code size](https://img.shields.io/github/languages/code-size/LimberDuck/converter-csv.svg)](https://github.com/LimberDuck/converter-csv)
 [![Supported platform](https://img.shields.io/badge/platform-windows%20%7C%20macos%20%7C%20linux-lightgrey.svg)](https://github.com/LimberDuck/converter-csv)
+<!-- [![PyPI - Downloads](https://img.shields.io/pypi/dm/converter-csv?logo=PyPI)](https://pypistats.org/packages/converter-csv) -->
 
 ![](https://user-images.githubusercontent.com/9287709/57588063-d4b2f280-750e-11e9-9ba8-e2d301d38cbc.png)
 
