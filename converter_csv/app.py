@@ -34,6 +34,8 @@ import sys
 import subprocess
 import platform
 from converter_csv.dialogs import about
+from converter_csv.dialogs import update_check
+from converter_csv.dialogs import url_open
 from converter_csv import __about__
 
 
@@ -61,7 +63,6 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         self.actionOpen_file.triggered.connect(self.open_files)
         self.actionOpen_directory.triggered.connect(self.open_directory)
         self.actionExit.triggered.connect(self.exit_application)
-
         self.actionStart_conversion.triggered.connect(self.parsing_thread_start)
         self.actionChange_separator.triggered.connect(self.change_delimiter)
         self.actionChange_target_directory.triggered.connect(
@@ -69,7 +70,10 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         )
         self.actionOpen_target_directory.triggered.connect(self.open_target_directory)
         self.actionAbout.triggered.connect(self.open_dialog_about)
-
+        self.actionCheck_for_Update.triggered.connect(self.open_dialog_update_check)
+        self.actionDocumentation.triggered.connect(self.open_url_documentation)
+        self.actionGitHub.triggered.connect(self.open_url_github)
+        self.actionReleases.triggered.connect(self.open_url_github_releases)
         self.checkBox_suffix_timestamp.stateChanged.connect(
             self.suffix_timestamp_changed
         )
@@ -196,6 +200,33 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         Function opens About dialog.
         """
         self.dialog_about = about.About()
+
+    def open_dialog_update_check(self):
+        """
+        Function opens Update check dialog.
+        """
+        self.dialog_update_check = update_check.UpdateCheck()
+
+    def open_url_documentation(self):
+        """
+        Function opens Url with documentation.
+        """
+        PACKAGE_NAME = __about__.__package_name__
+        url_open.open_website(f"https://limberduck.org/en/latest/tools/{PACKAGE_NAME}/")
+
+    def open_url_github(self):
+        """
+        Function opens Url with GitHub.
+        """
+        PACKAGE_NAME = __about__.__package_name__
+        url_open.open_website(f"https://github.com/LimberDuck/{PACKAGE_NAME}")
+
+    def open_url_github_releases(self):
+        """
+        Function opens Url with GitHub Releases.
+        """
+        PACKAGE_NAME = __about__.__package_name__
+        url_open.open_website(f"https://github.com/LimberDuck/{PACKAGE_NAME}/releases")
 
     def parsing_thread_start(self):
         """

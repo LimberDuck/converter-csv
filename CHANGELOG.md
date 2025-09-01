@@ -5,6 +5,27 @@ This document records all notable changes to [Converter CSV by LimberDuck][1].
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [0.4.0] - 2025-09-01
+
+### Added
+
+- New options:
+  - `Help > Check for Update` - will return confirmation if you are using the latest version of Converter CSV.
+  - `Help > Documentation` - will open Converter CSV documentation at LimberDuck.org.
+  - `Help > GitHub` - will open Converter CSV GitHub page.
+  - `Help > Releases` - will open Converter CSV GitHub Releases page.
+
+### Changed
+
+- Requirements update
+  - from:
+    - XlsxWriter>=3.2.2
+  - to:
+    - XlsxWriter>=3.2.5
+  - new:
+    - packaging>=25.0
+
 ## [0.3.1] - 2025-02-05
 
 ### Changed
@@ -63,6 +84,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial public release
 
+[0.4.0]: https://github.com/LimberDuck/converter-csv/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/LimberDuck/converter-csv/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/LimberDuck/converter-csv/compare/v0.2.3...v0.3.0
 [0.2.3]: https://github.com/LimberDuck/converter-csv/compare/v0.2.2...v0.2.3
