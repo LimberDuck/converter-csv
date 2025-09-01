@@ -152,10 +152,6 @@
            <string>Separator:</string>
           </property>
          </widget>
-         <zorder>lineEdit_separator</zorder>
-         <zorder>pushButton_separator_change</zorder>
-         <zorder>label_separator</zorder>
-         <zorder>groupBox_drag_and_drop</zorder>
         </widget>
        </item>
        <item>
@@ -325,15 +321,6 @@
            <bool>false</bool>
           </property>
          </widget>
-         <zorder>lineEdit_target_directory</zorder>
-         <zorder>label_target_directory</zorder>
-         <zorder>label_target_directory</zorder>
-         <zorder>label_target_directory</zorder>
-         <zorder>lineEdit_target_directory</zorder>
-         <zorder>pushButton_target_dir_change</zorder>
-         <zorder>checkBox_suffix_timestamp</zorder>
-         <zorder>checkBox_suffix_custom</zorder>
-         <zorder>lineEdit_suffix_custom_value</zorder>
         </widget>
        </item>
       </layout>
@@ -440,7 +427,7 @@
           <bool>true</bool>
          </property>
          <property name="textInteractionFlags">
-          <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+          <set>Qt::TextInteractionFlag::TextSelectableByKeyboard|Qt::TextInteractionFlag::TextSelectableByMouse</set>
          </property>
         </widget>
        </item>
@@ -462,7 +449,7 @@
      <x>0</x>
      <y>0</y>
      <width>750</width>
-     <height>22</height>
+     <height>37</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -490,6 +477,10 @@
      <string>Help</string>
     </property>
     <addaction name="actionAbout"/>
+    <addaction name="actionCheck_for_Update"/>
+    <addaction name="actionDocumentation"/>
+    <addaction name="actionGitHub"/>
+    <addaction name="actionReleases"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuAction"/>
@@ -534,6 +525,26 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionCheck_for_Update">
+   <property name="text">
+    <string>Check for Update</string>
+   </property>
+  </action>
+  <action name="actionDocumentation">
+   <property name="text">
+    <string>Documentation</string>
+   </property>
+  </action>
+  <action name="actionGitHub">
+   <property name="text">
+    <string>GitHub</string>
+   </property>
+  </action>
+  <action name="actionReleases">
+   <property name="text">
+    <string>Releases</string>
    </property>
   </action>
  </widget>

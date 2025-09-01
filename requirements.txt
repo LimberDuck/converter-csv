@@ -1,4 +1,4 @@
 chardet>=5.2.0
 imageio>=2.37.0
 PyQt5>=5.15.11
-XlsxWriter>=3.2.2
+XlsxWriter>=3.2.5
