@@ -87,8 +87,8 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         self.pushButton_start.setDisabled(True)
         self.progressBar.setHidden(True)
 
-        cwd = os.getcwd()
-        self.set_target_directory(cwd)
+        target_dir = os.path.expanduser('~')
+        self.set_target_directory(target_dir)
         self.get_target_directory_from_file()
 
         files = sys.argv[1:]
