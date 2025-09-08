@@ -843,7 +843,7 @@ def main():
     app_window_title = name
     form.setWindowTitle(app_window_title)
 
-    # app_icon_file_name_png = 'LimberDuck-converter-csv.png'
+    # app_icon_file_name_png = 'LimberDuck-Converter-CSV.png'
     # app_icon_file_name_png_to_ico = utilities.png_to_ico(app_icon_file_name_png)
     # app_icon_file_name_ico_to_base64 = utilities.file_to_base64(app_icon_file_name_png_to_ico)
     # app_icon_file_name_ico = utilities.base64_to_ico(app_icon_file_name_ico_to_base64,app_icon_file_name_png)
