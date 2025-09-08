@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [0.4.1] - 2025-09-08
+
+### Added
+
+- Pipeline with Build and Release for Windows, macOS and Linux.
+- Requirements update
+  - new:
+    - requests>=2.32.5
+
+### Changed
+
+- Icon file changed and renamed from `LimberDuck-converter-csv` to `LimberDuck-Converter-CSV`.
+- Default target directory changed from *current directory* to *user’s home directory*.
+- Fix for app build on macOS.
+- Update check directing to GitHub Releases as well.
+- Suffix fields width increased to improve GUI on Windows.
+- `version.rc` file info updated.
+
 ## [0.4.0] - 2025-09-01
 
 ### Added

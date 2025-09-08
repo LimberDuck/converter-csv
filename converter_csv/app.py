@@ -87,8 +87,8 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         self.pushButton_start.setDisabled(True)
         self.progressBar.setHidden(True)
 
-        cwd = os.getcwd()
-        self.set_target_directory(cwd)
+        target_dir = os.path.expanduser('~')
+        self.set_target_directory(target_dir)
         self.get_target_directory_from_file()
 
         files = sys.argv[1:]
@@ -829,6 +829,9 @@ class ParsingThread(QThread):
 
 
 def main():
+    if getattr(sys, 'frozen', False):
+        os.chdir(os.path.dirname(sys.executable))
+        
     app = QApplication(sys.argv)
     form = MainWindow()
 
@@ -843,11 +846,11 @@ def main():
     app_window_title = name
     form.setWindowTitle(app_window_title)
 
-    # app_icon_file_name_png = 'LimberDuck-converter-csv.png'
+    # app_icon_file_name_png = 'LimberDuck-Converter-CSV.png'
     # app_icon_file_name_png_to_ico = utilities.png_to_ico(app_icon_file_name_png)
     # app_icon_file_name_ico_to_base64 = utilities.file_to_base64(app_icon_file_name_png_to_ico)
     # app_icon_file_name_ico = utilities.base64_to_ico(app_icon_file_name_ico_to_base64,app_icon_file_name_png)
-    # app_icon_file_name_ico = 'LimberDuck-converter-csv.ico'
+    # app_icon_file_name_ico = 'LimberDuck-Converter-CSV.ico'
 
     icon_file_name = __about__.__icon__
     utilities.base64_to_ico(ldcc_ico.ico, icon_file_name)
