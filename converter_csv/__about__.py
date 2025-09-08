@@ -36,7 +36,7 @@ __all__ = [
 
 __title__ = "Converter CSV by LimberDuck"
 __package_name__ = "converter-csv"
-__icon__ = "LimberDuck-converter-csv.ico"
+__icon__ = "LimberDuck-Converter-CSV.ico"
 __summary__ = "Converter CSV by LimberDuck is a GUI tool to convert multiple large csv files to xlsx files."
 __uri__ = "https://limberduck.org"
 __version__ = "0.4.1"

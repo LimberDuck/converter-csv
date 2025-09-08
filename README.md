@@ -172,7 +172,7 @@ sudo apt-get install --reinstall libxcb-xinerama0
 6. Build your own executable file using below command
 
    ```
-   pyinstaller --onefile --windowed --icon=.\icons\LimberDuck-converter-csv.ico --name converter-csv converter_csv\__main__.py
+   pyinstaller --onefile --windowed --icon=.\icons\LimberDuck-Converter-CSV.ico --name converter-csv converter_csv\__main__.py
    ```
 
 7. Go to `dist` catalog to find executable file `converter-csv.exe`
@@ -217,7 +217,7 @@ sudo apt-get install --reinstall libxcb-xinerama0
 6. Build your own executable file using below command
 
    ```
-   pyinstaller --onefile --windowed --icon=./icons/LimberDuck-converter-csv.ico --name converter-csv converter_csv/__main__.py
+   pyinstaller --onefile --windowed --icon=./icons/LimberDuck-Converter-CSV.ico --name converter-csv converter_csv/__main__.py
    ```
 
 7. Go to `dist` catalog to find executable file `converter-csv`.
@@ -262,7 +262,7 @@ sudo apt-get install --reinstall libxcb-xinerama0
 6. Build your own executable file using below command
 
    ```
-   pyinstaller --onefile --windowed --icon=./icons/LimberDuck-converter-csv.ico --name converter-csv converter_csv/__main__.py
+   pyinstaller --onefile --windowed --icon=./icons/LimberDuck-Converter-CSV.ico --name converter-csv converter_csv/__main__.py
    ```
 
 7. Go to `dist` catalog to find executable file `converter-csv`.
