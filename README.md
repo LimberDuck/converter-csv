@@ -7,7 +7,10 @@ operating system no matter if it is Windows, MacOS or Linux. It's free
 and open source tool. The reason this tool was created is to speed-up
 your tasks.
 
-[![pepy - Downloads](https://img.shields.io/pepy/dt/converter-csv?logo=PyPI)](https://pepy.tech/projects/converter-csv) [![PyPI Downloads](https://static.pepy.tech/badge/converter-csv/month)](https://pepy.tech/projects/converter-csv)
+[![pepy - Downloads](https://img.shields.io/pepy/dt/converter-csv?logo=PyPI)](https://pepy.tech/projects/converter-csv) 
+[![PyPI Downloads](https://static.pepy.tech/badge/converter-csv/month)](https://pepy.tech/projects/converter-csv)
+[![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/LimberDuck/converter-csv/latest/total?label=latest%20release%20downloads&logo=GitHub)](https://github.com/LimberDuck/converter-csv/releases/latest)
+[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/LimberDuck/converter-csv/total?label=all%20releases%20downloads&logo=GitHub)](https://github.com/LimberDuck/converter-csv/releases)
 [![Latest Release version](https://img.shields.io/github/v/release/LimberDuck/converter-csv?label=Latest%20release)](https://github.com/LimberDuck/converter-csv/releases) 
 [![GitHub Release Date](https://img.shields.io/github/release-date/limberduck/converter-csv?label=released&logo=GitHub)](https://github.com/LimberDuck/converter-csv/releases)
 [![License](https://img.shields.io/github/license/LimberDuck/converter-csv.svg)](https://github.com/LimberDuck/converter-csv/blob/main/LICENSE)
@@ -16,7 +19,10 @@ your tasks.
 [![Supported platform](https://img.shields.io/badge/platform-windows%20%7C%20macos%20%7C%20linux-lightgrey.svg)](https://github.com/LimberDuck/converter-csv)
 <!-- [![PyPI - Downloads](https://img.shields.io/pypi/dm/converter-csv?logo=PyPI)](https://pypistats.org/packages/converter-csv) -->
 
-![](https://user-images.githubusercontent.com/9287709/57588063-d4b2f280-750e-11e9-9ba8-e2d301d38cbc.png)
+> [!NOTE]
+> **Visit [LimberDuck.org][LimberDuck] to find out more!**
+
+![](https://limberduck.org/en/latest/_images/converter-csv.png)
 
 ## Main features
 
@@ -43,7 +49,10 @@ your tasks.
 
 ## Installation
 
-> **Note:**
+> [!TIP]
+> You don’t need to install Python, install **Converter CSV**, or build it yourself. Just go to [GitHub Releases](https://github.com/LimberDuck/converter-csv/releases) and download the latest version of **Converter CSV**, ready to run on Windows, macOS, and Linux.
+
+> [!NOTE]
 > It's advisable to use python virtual environment for below instructions. Read more about python virtual environment in [The Hitchhiker’s Guide to Python!](https://docs.python-guide.org/dev/virtualenvs/)
 > 
 >Read about [virtualenvwrapper in The Hitchhiker’s Guide to Python!](https://docs.python-guide.org/dev/virtualenvs/#virtualenvwrapper): [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io) provides a set of commands which makes working with virtual environments much more pleasant.
