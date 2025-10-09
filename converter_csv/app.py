@@ -37,7 +37,9 @@ from converter_csv.dialogs import about
 from converter_csv.dialogs import update_check
 from converter_csv.dialogs import url_open
 from converter_csv import __about__
-
+import requests
+from packaging import version
+from converter_csv import __about__
 
 class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
     def __init__(self, parent=None):
@@ -51,7 +53,9 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         self.__target_directory_changed = False
         self.__file_conversion_counter = 0
         self.__suffix = ""
+        self.update_parsing_settings("suffix", self.__suffix)
         self.__suffix_template = ""
+        self.update_parsing_settings("suffix_template", self.__suffix_template)
 
         self.parsing_thread = ParsingThread(
             files_to_pars=self.__files_to_pars,
@@ -71,19 +75,31 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         self.actionOpen_target_directory.triggered.connect(self.open_target_directory)
         self.actionAbout.triggered.connect(self.open_dialog_about)
         self.actionCheck_for_Update.triggered.connect(self.open_dialog_update_check)
+        self.actionCheck_Announcements.triggered.connect(self.check_announcements_button)
         self.actionDocumentation.triggered.connect(self.open_url_documentation)
         self.actionGitHub.triggered.connect(self.open_url_github)
         self.actionReleases.triggered.connect(self.open_url_github_releases)
         self.checkBox_suffix_timestamp.stateChanged.connect(
             self.suffix_timestamp_changed
         )
+
         self.checkBox_suffix_custom.stateChanged.connect(self.suffix_custom_changed)
+        self.lineEdit_suffix_custom_value.textChanged.connect(self.suffix_custom_changed)
+        # Match any character but \/:*?"<>|
+        reg_ex = QRegExp('[^\\\\/:*?"<>|]+')
+        line_edit_suffix_custom_value_validator = QRegExpValidator(
+            reg_ex, self.lineEdit_suffix_custom_value
+        )
+        self.lineEdit_suffix_custom_value.setValidator(
+            line_edit_suffix_custom_value_validator
+        )
 
         self.pushButton_start.clicked.connect(self.parsing_thread_start)
         self.pushButton_separator_change.clicked.connect(self.change_delimiter)
         self.pushButton_target_dir_change.clicked.connect(self.change_target_directory)
         self.pushButton_target_dir_open.clicked.connect(self.open_target_directory)
 
+        self.checkBox_suffix_timestamp.setChecked(True)
         self.pushButton_start.setDisabled(True)
         self.progressBar.setHidden(True)
 
@@ -102,6 +118,15 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
 
         self.set_delimiter(",")
         self.get_delimiter()
+
+        self.print_log(
+            "If you don't know how to use particular options "
+            "hover mouse pointer on option for which you have any doubts to see tooltip. "
+            "Hover mouse pointer here, to see tooltip for progress preview.",
+            "red",
+        )
+
+        self.check_announcements()
 
         self.progressBar.setRange(0, 10)
 
@@ -206,6 +231,50 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         Function opens Update check dialog.
         """
         self.dialog_update_check = update_check.UpdateCheck()
+
+    def check_announcements(self):
+        """
+        Function checks Announcements.
+        """
+        
+        announcements = utilities.get_announcements(__about__.__package_name__,__about__.__version__)
+        for a in announcements:
+            self.print_log(f"[{a['type'].upper()}] {a['title']}: {a['message']}", "orange")
+
+    def check_announcements_button(self):
+        """
+        Function checks Announcements.
+        """
+        
+        announcements = utilities.get_announcements(__about__.__package_name__,__about__.__version__)
+        for a in announcements:
+            self.print_log(f"[{a['type'].upper()}] {a['title']}: {a['message']}", "orange")
+
+        if not announcements:
+            self.print_log("No new announcements.", "green")
+
+    def display_update_window(self):
+
+        PACKAGE_NAME = __about__.__package_name__
+        current_version = __about__.__version__
+
+        try:
+            response = requests.get(
+                f"https://pypi.org/pypi/{PACKAGE_NAME}/json", timeout=1.5
+            )
+            response.raise_for_status()
+            latest = response.json()["info"]["version"]
+            if version.parse(latest) > version.parse(current_version):
+                print("New version available:", latest)
+                self.dialog_update_check = update_check.UpdateCheck()
+
+        except requests.exceptions.ConnectionError as e:
+            return (
+                None,
+                f"Could not check for updates: <br><br><i>Connection error</i><br><br>{e}",
+            )
+        except Exception as e:
+            return None, f"Could not check for updates:<br><br>{e}"
 
     def open_url_documentation(self):
         """
@@ -487,7 +556,7 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
 
         Possible to select one or more files.
         """
-        info = "File\-s opening."
+        info = "File\\-s opening."
         color = "black"
         self.print_log(info, color=color)
 
@@ -608,6 +677,15 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
             color = "red"
             self.print_log(info, color=color)
 
+    def is_dark_mode(self):
+        """
+        Detects if the application is running in dark mode.
+        """
+        app_palette = QApplication.palette()
+        bg_color = app_palette.color(QPalette.ColorRole.Window)
+        
+        return bg_color.lightness() < 128  # lightness < 128 means dark mode
+
     def print_log(self, log_value, color):
         """
         Function displays actions information in GUI in Progress preview.
@@ -615,14 +693,20 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         :param log_value: information to display
         :param color: color for given information
         """
-        if color == "black":
-            color_set = QColor(0, 0, 0)
-        elif color == "red":
-            color_set = QColor(230, 30, 30)
-        elif color == "green":
-            color_set = QColor(60, 160, 60)
-        else:
-            color_set = QColor(0, 0, 0)
+        
+        dark_mode = self.is_dark_mode()
+
+        # Define colors for light and dark mode
+        color_map = {
+            "black": (0, 0, 0) if not dark_mode else (255, 255, 255),
+            "red": (230, 30, 30) if not dark_mode else (255, 100, 100),
+            "green": (60, 160, 60) if not dark_mode else (100, 255, 100),
+            "blue": (0, 0, 255) if not dark_mode else (100, 180, 255),
+            "orange": (255, 165, 0) if not dark_mode else (255, 200, 120),
+            "default": (0, 0, 0) if not dark_mode else (255, 255, 255),
+        }
+
+        r, g, b = color_map.get(color, color_map["default"])
 
         log_output = (
             "["
@@ -631,10 +715,23 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
             + log_value
         )
 
-        self.textEdit_progress.setTextColor(color_set)
-        self.textEdit_progress.append(log_output)
-        self.textEdit_progress.moveCursor(QTextCursor.End)
-        self.textEdit_progress.repaint()
+        html_output = f'''<div style="color: rgb({r}, {g}, {b});">{log_output}</div>'''
+
+        cursor = self.textBrowser_progress.textCursor()
+        cursor.movePosition(QTextCursor.End)
+
+        if not self.textBrowser_progress.document().isEmpty():
+            cursor.insertBlock()
+
+        block_fmt = cursor.blockFormat()
+        block_fmt.setBottomMargin(4.0)
+        cursor.setBlockFormat(block_fmt)
+
+        frag = QTextDocumentFragment.fromHtml(html_output)
+        cursor.insertFragment(frag)
+
+        self.textBrowser_progress.setTextCursor(cursor)
+        self.textBrowser_progress.repaint()
 
     def exit_application(self):
         """
@@ -860,4 +957,5 @@ def main():
     os.remove(icon_file_name)
 
     form.show()
+    QTimer.singleShot(5, form.display_update_window)
     sys.exit(app.exec_())

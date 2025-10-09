@@ -410,7 +410,7 @@
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QTextEdit" name="textEdit_progress">
+        <widget class="QTextBrowser" name="textBrowser_progress">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -423,11 +423,17 @@
            <pointsize>10</pointsize>
           </font>
          </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Here you will see whole progress preview for any action taken.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: You can mark and copy text from this field.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
          <property name="readOnly">
           <bool>true</bool>
          </property>
          <property name="textInteractionFlags">
-          <set>Qt::TextInteractionFlag::TextSelectableByKeyboard|Qt::TextInteractionFlag::TextSelectableByMouse</set>
+          <set>Qt::TextInteractionFlag::LinksAccessibleByKeyboard|Qt::TextInteractionFlag::LinksAccessibleByMouse|Qt::TextInteractionFlag::TextBrowserInteraction|Qt::TextInteractionFlag::TextSelectableByKeyboard|Qt::TextInteractionFlag::TextSelectableByMouse</set>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -449,7 +455,7 @@
      <x>0</x>
      <y>0</y>
      <width>750</width>
-     <height>37</height>
+     <height>33</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -478,6 +484,7 @@
     </property>
     <addaction name="actionAbout"/>
     <addaction name="actionCheck_for_Update"/>
+    <addaction name="actionCheck_Announcements"/>
     <addaction name="actionDocumentation"/>
     <addaction name="actionGitHub"/>
     <addaction name="actionReleases"/>
@@ -547,10 +554,12 @@
     <string>Releases</string>
    </property>
   </action>
+  <action name="actionCheck_Announcements">
+   <property name="text">
+    <string>Check Announcements</string>
+   </property>
+  </action>
  </widget>
- <tabstops>
-  <tabstop>textEdit_progress</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>
