@@ -41,7 +41,8 @@ your tasks.
 
 ## Options
 
-* Click `Change` button (next to separator filed) to change separator to desired by you eg. "`;`".
+* Keep `Auto-detect separator` checkbox selected to automatically detected separators such as `,`, `;`, `tab`, `|` and `:` based on the first 5 lines.
+* Disable `Auto-detect separator` option and click `Change` button (next to separator filed) to change separator to desired by you eg. "`;`".
 * Click `Change` button (next to directory field) to change target directory and use it for all output files.
 * Mark checkbox `add suffix with "_YYYYMMDD_HHMMSS"` to add into each file name suffix with current time with given format.
 * Key-in custom suffix and mark checkbox `add custom suffix` to add into each file name suffix with given text.

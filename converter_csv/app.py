@@ -85,6 +85,7 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
 
         self.checkBox_suffix_custom.stateChanged.connect(self.suffix_custom_changed)
         self.lineEdit_suffix_custom_value.textChanged.connect(self.suffix_custom_changed)
+        self.checkBox_auto_detect_separator.stateChanged.connect(self.auto_detect_separator_changed)
         # Match any character but \/:*?"<>|
         reg_ex = QRegExp('[^\\\\/:*?"<>|]+')
         line_edit_suffix_custom_value_validator = QRegExpValidator(
@@ -100,6 +101,7 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         self.pushButton_target_dir_open.clicked.connect(self.open_target_directory)
 
         self.checkBox_suffix_timestamp.setChecked(True)
+        self.checkBox_auto_detect_separator.setChecked(True)
         self.pushButton_start.setDisabled(True)
         self.progressBar.setHidden(True)
 
@@ -118,6 +120,9 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
 
         self.set_delimiter(",")
         self.get_delimiter()
+        
+        # Initialize auto-detect separator setting
+        self.update_parsing_settings("auto_detect_separator", True)
 
         self.print_log(
             "If you don't know how to use particular options "
@@ -453,6 +458,26 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         Function gets delimiter from private variable and set it into lineEdit_separator.
         """
         self.lineEdit_separator.setText(self.__delimiter)
+
+    def auto_detect_separator_changed(self):
+        """
+        Function handles auto-detect separator checkbox state change.
+        """
+        auto_detect_enabled = self.checkBox_auto_detect_separator.isChecked()
+        self.update_parsing_settings("auto_detect_separator", auto_detect_enabled)
+        
+        # Disable/enable manual separator input based on checkbox state
+        self.lineEdit_separator.setEnabled(not auto_detect_enabled)
+        self.pushButton_separator_change.setEnabled(not auto_detect_enabled)
+        
+        if auto_detect_enabled:
+            color = "green"
+            info = "Auto-detect separator enabled. Separator will be detected for each file automatically."
+            self.print_log(info, color)
+        else:
+            color = "black"
+            info = "Auto-detect separator disabled. Using manual separator: \"" + self.__delimiter + "\""
+            self.print_log(info, color)
 
     def change_delimiter(self):
         """
@@ -799,6 +824,7 @@ class ParsingThread(QThread):
         target_directory_changed = self.target_directory_changed
         target_directory = self.target_directory
         source_file_delimiter = self.parsing_settings["csv_delimiter"]
+        auto_detect_separator = self.parsing_settings.get("auto_detect_separator", False)
 
         if "suffix" in self.parsing_settings:
             suffix = self.parsing_settings["suffix"]
@@ -855,6 +881,28 @@ class ParsingThread(QThread):
                 source_file_name,
                 "[source_file_encoding={0}]".format(source_file_encoding),
             )
+
+            # Auto-detect separator if enabled
+            if auto_detect_separator:
+                detected_delimiter = utilities.detect_csv_separator(
+                    source_file_name_with_path
+                )
+                # Format separator for display
+                separator_display = detected_delimiter
+                if detected_delimiter == '\t':
+                    separator_display = "TAB"
+                elif detected_delimiter == ' ':
+                    separator_display = "SPACE"
+                elif not detected_delimiter.isprintable():
+                    separator_display = repr(detected_delimiter)
+                self.log_emitter(
+                    "info",
+                    source_file_name,
+                    "[detected_separator={0}]".format(separator_display),
+                )
+                file_delimiter = detected_delimiter
+            else:
+                file_delimiter = source_file_delimiter
 
             source_file_lines_number = utilities.csv_file_row_counter(
                 source_file_name_with_path, source_file_delimiter

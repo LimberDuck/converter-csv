@@ -127,6 +127,34 @@
            <string>Change</string>
           </property>
          </widget>
+         <widget class="QCheckBox" name="checkBox_auto_detect_separator">
+          <property name="geometry">
+           <rect>
+            <x>230</x>
+            <y>28</y>
+            <width>200</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>180</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>200</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable to &lt;span style=&quot; font-weight:600;&quot;&gt;automatically detect separator&lt;/span&gt; for each CSV file based on the first few lines.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Auto-detect separator</string>
+          </property>
+         </widget>
          <widget class="QLabel" name="label_separator">
           <property name="geometry">
            <rect>

@@ -5,7 +5,11 @@ This document records all notable changes to [Converter CSV by LimberDuck][1].
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2025-11-26
 
+### Added
+
+- **Auto-detect separator** - Separators such as `,`, `;`, `tab`, `|` and `:` are automatically detected based on the first 5 lines. This option is enabled by default. Disable it to set the separator manually.
 ## [0.5.0] - 2025-10-09
 
 ### Added
