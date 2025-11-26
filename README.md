@@ -33,15 +33,22 @@ your tasks.
 
 ## Usage
 
-1. Go to Menu `File`.
-2. Choose one of below options:
-    - `Open file\-s` if you want to open one or more csv files at once.
-    - `Open directory` if you want to open all csv files from selected directory and its subdirectories.
-3. Click `Start` button to initiate conversion of all selected files.
+1. To open csv files:
+   1. Open *Converter CSV by LimberDuck*, go to Menu "File" and choose:
+      - "Open file\\-s" if you want to open one or more csv files at once.
+      - "Open directory" if you want to open all csv files from selected directory and its subdirectories.
+   2. On OS level select one or more csv files:
+      - Click RMB (Right Mouse Button) on them and choose from contextual menu option "Open with..."
+      - Choose *Converter CSV by LimberDuck* to open selected files.
+   3. On OS level select one or more csv files or directories containing csv files:
+      - drag and drop selected file\\-s on *Converter CSV by LimberDuck* window.
+      - drag and drop selected directory or directories on *Converter CSV by LimberDuck* window.
+2. Click `Start` button to initiate conversion of all selected files.
 
 ## Options
 
-* Click `Change` button (next to separator filed) to change separator to desired by you eg. "`;`".
+* Keep `Auto-detect separator` checkbox selected to automatically detected separators such as `,`, `;`, `tab`, `|` and `:` based on the first 5 lines.
+* Disable `Auto-detect separator` option and click `Change` button (next to separator filed) to change separator to desired by you eg. "`;`".
 * Click `Change` button (next to directory field) to change target directory and use it for all output files.
 * Mark checkbox `add suffix with "_YYYYMMDD_HHMMSS"` to add into each file name suffix with current time with given format.
 * Key-in custom suffix and mark checkbox `add custom suffix` to add into each file name suffix with given text.
@@ -50,7 +57,7 @@ your tasks.
 ## Installation
 
 > [!TIP]
-> You don’t need to install Python, install **Converter CSV**, or build it yourself. Just go to [GitHub Releases](https://github.com/LimberDuck/converter-csv/releases) and download the latest version of **Converter CSV**, ready to run on Windows, macOS, and Linux.
+> You don’t need to install Python, install **Converter CSV**, or build it yourself. Just go to [GitHub Releases](https://github.com/LimberDuck/converter-csv/releases) and download the latest version of *Converter CSV*, ready to run on Windows, macOS, and Linux.
 
 > [!NOTE]
 > It's advisable to use python virtual environment for below instructions. Read more about python virtual environment in [The Hitchhiker’s Guide to Python!](https://docs.python-guide.org/dev/virtualenvs/)

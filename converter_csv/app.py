@@ -41,6 +41,7 @@ import requests
 from packaging import version
 from converter_csv import __about__
 
+
 class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
@@ -75,7 +76,9 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         self.actionOpen_target_directory.triggered.connect(self.open_target_directory)
         self.actionAbout.triggered.connect(self.open_dialog_about)
         self.actionCheck_for_Update.triggered.connect(self.open_dialog_update_check)
-        self.actionCheck_Announcements.triggered.connect(self.check_announcements_button)
+        self.actionCheck_Announcements.triggered.connect(
+            self.check_announcements_button
+        )
         self.actionDocumentation.triggered.connect(self.open_url_documentation)
         self.actionGitHub.triggered.connect(self.open_url_github)
         self.actionReleases.triggered.connect(self.open_url_github_releases)
@@ -84,7 +87,12 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         )
 
         self.checkBox_suffix_custom.stateChanged.connect(self.suffix_custom_changed)
-        self.lineEdit_suffix_custom_value.textChanged.connect(self.suffix_custom_changed)
+        self.lineEdit_suffix_custom_value.textChanged.connect(
+            self.suffix_custom_changed
+        )
+        self.checkBox_auto_detect_separator.stateChanged.connect(
+            self.auto_detect_separator_changed
+        )
         # Match any character but \/:*?"<>|
         reg_ex = QRegExp('[^\\\\/:*?"<>|]+')
         line_edit_suffix_custom_value_validator = QRegExpValidator(
@@ -100,10 +108,11 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         self.pushButton_target_dir_open.clicked.connect(self.open_target_directory)
 
         self.checkBox_suffix_timestamp.setChecked(True)
+        self.checkBox_auto_detect_separator.setChecked(True)
         self.pushButton_start.setDisabled(True)
         self.progressBar.setHidden(True)
 
-        target_dir = os.path.expanduser('~')
+        target_dir = os.path.expanduser("~")
         self.set_target_directory(target_dir)
         self.get_target_directory_from_file()
 
@@ -119,6 +128,9 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         self.set_delimiter(",")
         self.get_delimiter()
 
+        # Initialize auto-detect separator setting
+        self.update_parsing_settings("auto_detect_separator", True)
+
         self.print_log(
             "If you don't know how to use particular options "
             "hover mouse pointer on option for which you have any doubts to see tooltip. "
@@ -129,6 +141,97 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         self.check_announcements()
 
         self.progressBar.setRange(0, 10)
+
+        # Enable drag and drop
+        self.setAcceptDrops(True)
+
+    def dragEnterEvent(self, event):
+        """
+        Function handles drag enter event to accept file and directory drops.
+
+        :param event: QDragEnterEvent
+        """
+        if event.mimeData().hasUrls():
+            event.acceptProposedAction()
+
+    def dropEvent(self, event):
+        """
+        Function handles drop event to process dropped files and directories.
+
+        Supports dropping:
+        - One or more CSV files
+        - One or more directories containing CSV files
+
+        :param event: QDropEvent
+        """
+        if not event.mimeData().hasUrls():
+            return
+
+        urls = event.mimeData().urls()
+        files_to_process = []
+        directories_to_process = []
+
+        # Separate files and directories
+        for url in urls:
+            # Convert QUrl to local file path
+            file_path = url.toLocalFile()
+
+            if not file_path:
+                continue
+
+            # Check if it's a directory or file
+            if os.path.isdir(file_path):
+                directories_to_process.append(file_path)
+            elif os.path.isfile(file_path):
+                # Check if it's a CSV file
+                if file_path.lower().endswith(".csv"):
+                    files_to_process.append(file_path)
+
+        # Process directories (recursively find CSV files)
+        if directories_to_process:
+            info = "Files from directory and subdirectories opening via drag and drop."
+            color = "black"
+            self.print_log(info, color=color)
+
+            extension = "*.csv"
+            os_separator = os.path.sep
+
+            # Set target directory to the first dropped directory (only once)
+            if not self.__target_directory_changed:
+                self.set_target_directory(directories_to_process[0])
+                self.get_target_directory_from_directory()
+
+            for directory in directories_to_process:
+                # Find all CSV files recursively
+                csv_files = glob.glob(
+                    directory + os_separator + "**" + os_separator + extension,
+                    recursive=True,
+                )
+                files_to_process.extend(csv_files)
+
+        # Process files
+        if files_to_process:
+            info = "File\\-s opening via drag and drop."
+            color = "black"
+            self.print_log(info, color=color)
+
+            # Set target directory to the first file's directory if not changed
+            if files_to_process and not self.__target_directory_changed:
+                target_directory2 = os.path.dirname(
+                    os.path.abspath(files_to_process[0])
+                )
+                self.set_target_directory(target_directory2)
+                self.get_target_directory_from_file()
+
+            self.list_of_files_to_pars(files_to_process)
+            self.pushButton_start.setEnabled(True)
+            self.__target_directory_changed = False
+        else:
+            info = "No CSV files found in dropped items."
+            color = "red"
+            self.print_log(info, color=color)
+
+        event.acceptProposedAction()
 
     def suffix_timestamp_changed(self):
         """
@@ -236,24 +339,35 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         """
         Function checks Announcements.
         """
-        
-        announcements = utilities.get_announcements(__about__.__package_name__,__about__.__version__)
+
+        announcements = utilities.get_announcements(
+            __about__.__package_name__, __about__.__version__
+        )
         for a in announcements:
-            self.print_log(f"[{a['type'].upper()}] {a['title']}: {a['message']}", "orange")
+            self.print_log(
+                f"[{a['type'].upper()}] {a['title']}: {a['message']}", "orange"
+            )
 
     def check_announcements_button(self):
         """
         Function checks Announcements.
         """
-        
-        announcements = utilities.get_announcements(__about__.__package_name__,__about__.__version__)
+
+        announcements = utilities.get_announcements(
+            __about__.__package_name__, __about__.__version__
+        )
         for a in announcements:
-            self.print_log(f"[{a['type'].upper()}] {a['title']}: {a['message']}", "orange")
+            self.print_log(
+                f"[{a['type'].upper()}] {a['title']}: {a['message']}", "orange"
+            )
 
         if not announcements:
             self.print_log("No new announcements.", "green")
 
     def display_update_window(self):
+        """
+        Function automatically opens Update check dialog if new version is available.
+        """
 
         PACKAGE_NAME = __about__.__package_name__
         current_version = __about__.__version__
@@ -453,6 +567,30 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         Function gets delimiter from private variable and set it into lineEdit_separator.
         """
         self.lineEdit_separator.setText(self.__delimiter)
+
+    def auto_detect_separator_changed(self):
+        """
+        Function handles auto-detect separator checkbox state change.
+        """
+        auto_detect_enabled = self.checkBox_auto_detect_separator.isChecked()
+        self.update_parsing_settings("auto_detect_separator", auto_detect_enabled)
+
+        # Disable/enable manual separator input based on checkbox state
+        self.lineEdit_separator.setEnabled(not auto_detect_enabled)
+        self.pushButton_separator_change.setEnabled(not auto_detect_enabled)
+
+        if auto_detect_enabled:
+            color = "green"
+            info = "Auto-detect separator enabled. Separator will be detected for each file automatically."
+            self.print_log(info, color)
+        else:
+            color = "black"
+            info = (
+                'Auto-detect separator disabled. Using manual separator: "'
+                + self.__delimiter
+                + '"'
+            )
+            self.print_log(info, color)
 
     def change_delimiter(self):
         """
@@ -683,7 +821,7 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         """
         app_palette = QApplication.palette()
         bg_color = app_palette.color(QPalette.ColorRole.Window)
-        
+
         return bg_color.lightness() < 128  # lightness < 128 means dark mode
 
     def print_log(self, log_value, color):
@@ -693,7 +831,7 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
         :param log_value: information to display
         :param color: color for given information
         """
-        
+
         dark_mode = self.is_dark_mode()
 
         # Define colors for light and dark mode
@@ -715,7 +853,7 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
             + log_value
         )
 
-        html_output = f'''<div style="color: rgb({r}, {g}, {b});">{log_output}</div>'''
+        html_output = f"""<div style="color: rgb({r}, {g}, {b});">{log_output}</div>"""
 
         cursor = self.textBrowser_progress.textCursor()
         cursor.movePosition(QTextCursor.End)
@@ -799,6 +937,9 @@ class ParsingThread(QThread):
         target_directory_changed = self.target_directory_changed
         target_directory = self.target_directory
         source_file_delimiter = self.parsing_settings["csv_delimiter"]
+        auto_detect_separator = self.parsing_settings.get(
+            "auto_detect_separator", True
+        )
 
         if "suffix" in self.parsing_settings:
             suffix = self.parsing_settings["suffix"]
@@ -856,8 +997,30 @@ class ParsingThread(QThread):
                 "[source_file_encoding={0}]".format(source_file_encoding),
             )
 
+            # Auto-detect separator if enabled
+            if auto_detect_separator:
+                detected_delimiter = utilities.detect_csv_separator(
+                    source_file_name_with_path
+                )
+                # Format separator for display
+                separator_display = detected_delimiter
+                if detected_delimiter == "\t":
+                    separator_display = "TAB"
+                elif detected_delimiter == " ":
+                    separator_display = "SPACE"
+                elif not detected_delimiter.isprintable():
+                    separator_display = repr(detected_delimiter)
+                self.log_emitter(
+                    "info",
+                    source_file_name,
+                    "[detected_separator={0}]".format(separator_display),
+                )
+                file_delimiter = detected_delimiter
+            else:
+                file_delimiter = source_file_delimiter
+
             source_file_lines_number = utilities.csv_file_row_counter(
-                source_file_name_with_path, source_file_delimiter
+                source_file_name_with_path, file_delimiter
             )
             self.log_emitter(
                 "info",
@@ -866,7 +1029,7 @@ class ParsingThread(QThread):
             )
 
             file = open(source_file_name_with_path, "r", encoding=source_file_encoding)
-            csv.register_dialect("colons", delimiter=source_file_delimiter)
+            csv.register_dialect("colons", delimiter=file_delimiter)
             reader = csv.reader(file, dialect="colons")
 
             workbook = xlsxwriter.Workbook(
@@ -926,9 +1089,9 @@ class ParsingThread(QThread):
 
 
 def main():
-    if getattr(sys, 'frozen', False):
+    if getattr(sys, "frozen", False):
         os.chdir(os.path.dirname(sys.executable))
-        
+
     app = QApplication(sys.argv)
     form = MainWindow()
 

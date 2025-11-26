@@ -2,25 +2,28 @@
 
 This document records all notable changes to [Converter CSV by LimberDuck][1].
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2025-11-26
 
+### Added
+
+- **Auto-detect separator** - Separators such as `,`, `;`, `tab`, `|` and `:` are automatically detected based on the first 5 lines. This option is enabled by default. Disable it to set the separator manually.
+- **Drag & drop** - now you can drag and drop selected files or directories on *Converter CSV by LimberDuck* window to open csv files faster.
+ 
 ## [0.5.0] - 2025-10-09
 
 ### Added
 
-- **Announcements** visible in Progress Preview window. Displayed just after opening or by selecting `Help > Check Announcements`.
- 
+- **Announcements** are now displayed in the Progress Preview window - either automatically upon opening or manually via `Help > Check Announcements`.
+
 ### Changed
 
-- **Check for Update** will notify automatically if new version is available just after opening.
+- **Check for Updates** now automatically notifies you of a new version immediately after opening the application.
 - Progress Preview window with font colors suited to light and dark mode
 - Option suffix with date enabled by default.
 - **Validation of user input for custom suffix** - Settings > Target files > add custom suffix - now you will not be able to put chars like `\` `/` `:` `*` `?` `"` `<` `>` `|` which will let you save target file without any problem.
-- Requirements update
-  - new:
-    - packaging>=25.0
 
 ## [0.4.3] - 2025-09-08
 
@@ -130,6 +133,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial public release
 
+[0.6.0]: https://github.com/LimberDuck/converter-csv/compare/v0.5.3...v0.6.0
+[0.5.0]: https://github.com/LimberDuck/converter-csv/compare/v0.4.3...v0.5.0
 [0.4.3]: https://github.com/LimberDuck/converter-csv/compare/v0.4.2...v0.4.3
 [0.4.2]: https://github.com/LimberDuck/converter-csv/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/LimberDuck/converter-csv/compare/v0.4.0...v0.4.1
