@@ -348,6 +348,9 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
             self.print_log("No new announcements.", "green")
 
     def display_update_window(self):
+        """
+        Function automatically opens Update check dialog if new version is available.
+        """
 
         PACKAGE_NAME = __about__.__package_name__
         current_version = __about__.__version__
