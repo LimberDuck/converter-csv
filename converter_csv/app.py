@@ -938,7 +938,7 @@ class ParsingThread(QThread):
         target_directory = self.target_directory
         source_file_delimiter = self.parsing_settings["csv_delimiter"]
         auto_detect_separator = self.parsing_settings.get(
-            "auto_detect_separator", False
+            "auto_detect_separator", True
         )
 
         if "suffix" in self.parsing_settings:
