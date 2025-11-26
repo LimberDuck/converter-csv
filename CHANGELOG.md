@@ -24,9 +24,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Progress Preview window with font colors suited to light and dark mode
 - Option suffix with date enabled by default.
 - **Validation of user input for custom suffix** - Settings > Target files > add custom suffix - now you will not be able to put chars like `\` `/` `:` `*` `?` `"` `<` `>` `|` which will let you save target file without any problem.
-- Requirements update
-  - new:
-    - packaging>=25.0
 
 ## [0.4.3] - 2025-09-08
 
