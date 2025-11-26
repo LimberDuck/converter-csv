@@ -57,7 +57,7 @@ your tasks.
 ## Installation
 
 > [!TIP]
-> You don’t need to install Python, install **Converter CSV**, or build it yourself. Just go to [GitHub Releases](https://github.com/LimberDuck/converter-csv/releases) and download the latest version of **Converter CSV**, ready to run on Windows, macOS, and Linux.
+> You don’t need to install Python, install **Converter CSV**, or build it yourself. Just go to [GitHub Releases](https://github.com/LimberDuck/converter-csv/releases) and download the latest version of *Converter CSV*, ready to run on Windows, macOS, and Linux.
 
 > [!NOTE]
 > It's advisable to use python virtual environment for below instructions. Read more about python virtual environment in [The Hitchhiker’s Guide to Python!](https://docs.python-guide.org/dev/virtualenvs/)
