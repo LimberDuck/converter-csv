@@ -33,11 +33,17 @@ your tasks.
 
 ## Usage
 
-1. Go to Menu `File`.
-2. Choose one of below options:
-    - `Open file\-s` if you want to open one or more csv files at once.
-    - `Open directory` if you want to open all csv files from selected directory and its subdirectories.
-3. Click `Start` button to initiate conversion of all selected files.
+1. To open csv files:
+   1. Open *Converter CSV by LimberDuck*, go to Menu "File" and choose:
+      - "Open file\\-s" if you want to open one or more csv files at once.
+      - "Open directory" if you want to open all csv files from selected directory and its subdirectories.
+   2. On OS level select one or more csv files:
+      - Click RMB (Right Mouse Button) on them and choose from contextual menu option "Open with..."
+      - Choose *Converter CSV by LimberDuck* to open selected files.
+   3. On OS level select one or more csv files or directories containing csv files:
+      - drag and drop selected file\\-s on *Converter CSV by LimberDuck* window.
+      - drag and drop selected directory or directories on *Converter CSV by LimberDuck* window.
+2. Click `Start` button to initiate conversion of all selected files.
 
 ## Options
 

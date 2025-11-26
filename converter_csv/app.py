@@ -135,6 +135,95 @@ class MainWindow(QMainWindow, mainwindow.Ui_MainWindow):
 
         self.progressBar.setRange(0, 10)
 
+        # Enable drag and drop
+        self.setAcceptDrops(True)
+
+    def dragEnterEvent(self, event):
+        """
+        Function handles drag enter event to accept file and directory drops.
+        
+        :param event: QDragEnterEvent
+        """
+        if event.mimeData().hasUrls():
+            event.acceptProposedAction()
+
+    def dropEvent(self, event):
+        """
+        Function handles drop event to process dropped files and directories.
+        
+        Supports dropping:
+        - One or more CSV files
+        - One or more directories containing CSV files
+        
+        :param event: QDropEvent
+        """
+        if not event.mimeData().hasUrls():
+            return
+
+        urls = event.mimeData().urls()
+        files_to_process = []
+        directories_to_process = []
+
+        # Separate files and directories
+        for url in urls:
+            # Convert QUrl to local file path
+            file_path = url.toLocalFile()
+            
+            if not file_path:
+                continue
+
+            # Check if it's a directory or file
+            if os.path.isdir(file_path):
+                directories_to_process.append(file_path)
+            elif os.path.isfile(file_path):
+                # Check if it's a CSV file
+                if file_path.lower().endswith('.csv'):
+                    files_to_process.append(file_path)
+
+        # Process directories (recursively find CSV files)
+        if directories_to_process:
+            info = "Files from directory and subdirectories opening via drag and drop."
+            color = "black"
+            self.print_log(info, color=color)
+
+            extension = "*.csv"
+            os_separator = os.path.sep
+
+            # Set target directory to the first dropped directory (only once)
+            if not self.__target_directory_changed:
+                self.set_target_directory(directories_to_process[0])
+                self.get_target_directory_from_directory()
+
+            for directory in directories_to_process:
+                # Find all CSV files recursively
+                csv_files = glob.glob(
+                    directory + os_separator + "**" + os_separator + extension,
+                    recursive=True,
+                )
+                files_to_process.extend(csv_files)
+
+        # Process files
+        if files_to_process:
+            info = "File\\-s opening via drag and drop."
+            color = "black"
+            self.print_log(info, color=color)
+
+            # Set target directory to the first file's directory if not changed
+            if files_to_process and not self.__target_directory_changed:
+                target_directory2 = os.path.dirname(os.path.abspath(files_to_process[0]))
+                self.set_target_directory(target_directory2)
+                self.get_target_directory_from_file()
+
+            self.list_of_files_to_pars(files_to_process)
+            self.pushButton_start.setEnabled(True)
+            self.__target_directory_changed = False
+        else:
+            info = "No CSV files found in dropped items."
+            color = "red"
+            self.print_log(info, color=color)
+
+        event.acceptProposedAction()
+
     def suffix_timestamp_changed(self):
         """
         Function sets suffix appropriately if checkBox_suffix_timestamp has changed.

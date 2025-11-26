@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - **Auto-detect separator** - Separators such as `,`, `;`, `tab`, `|` and `:` are automatically detected based on the first 5 lines. This option is enabled by default. Disable it to set the separator manually.
+- **Drag & drop** - now you can drag and drop selected files or directories on *Converter CSV by LimberDuck* window to open csv files faster.
+ 
 ## [0.5.0] - 2025-10-09
 
 ### Added
