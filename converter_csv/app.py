@@ -997,7 +997,7 @@ class ParsingThread(QThread):
                 file_delimiter = source_file_delimiter
 
             source_file_lines_number = utilities.csv_file_row_counter(
-                source_file_name_with_path, source_file_delimiter
+                source_file_name_with_path, file_delimiter
             )
             self.log_emitter(
                 "info",
@@ -1006,7 +1006,7 @@ class ParsingThread(QThread):
             )
 
             file = open(source_file_name_with_path, "r", encoding=source_file_encoding)
-            csv.register_dialect("colons", delimiter=source_file_delimiter)
+            csv.register_dialect("colons", delimiter=file_delimiter)
             reader = csv.reader(file, dialect="colons")
 
             workbook = xlsxwriter.Workbook(
