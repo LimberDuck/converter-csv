@@ -9,6 +9,8 @@ on:
 env:
   python_package_name: converter-csv
   folder_package_name: converter_csv
+  app_name: LimberDuck Converter CSV
+  app_name_dash: LimberDuck-Converter-CSV
 
 jobs:
   build:
@@ -45,3 +47,171 @@ jobs:
       - name: pip show package
         run: |
           pip show ${{ env.python_package_name }}
+
+
+  build-linux:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          ./venv/bin/python -m pip install --upgrade pip
+          ./venv/bin/python -m pip install pyinstaller
+          ./venv/bin/python -m pip install -r requirements.txt
+
+      - name: Build
+        run: |
+          ./venv/bin/python -m pip list
+          ./venv/bin/python -m PyInstaller ${{ env.folder_package_name }}/__main__.py --name "${{ env.app_name_dash }}" --onefile --windowed --icon=./icons/${{ env.app_name_dash }}.ico --distpath dist
+
+      - name: Archive binary
+        run: |
+          cd dist
+          ls -la .
+          mkdir ${{ env.app_name_dash }}-${{ github.ref_name }}-linux
+          mv "${{ env.app_name_dash }}" ${{ env.app_name_dash }}-${{ github.ref_name }}-linux
+          zip -r ${{ env.app_name_dash }}-${{ github.ref_name }}-linux.zip ${{ env.app_name_dash }}-${{ github.ref_name }}-linux
+          ls -la .
+
+      - name: Upload artifact with binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}-binary
+          path: dist/${{ env.app_name_dash }}-${{ github.ref_name }}-linux.zip
+
+  build-windows:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest]
+    needs: build-linux
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          .\venv\Scripts\python -m pip install --upgrade pip
+          .\venv\Scripts\python -m pip install pyinstaller
+          .\venv\Scripts\python -m pip install -r requirements.txt
+
+      - name: Build
+        run: |
+          .\venv\Scripts\python -m pip list
+          .\venv\Scripts\python -m PyInstaller ${{ env.folder_package_name }}\__main__.py --name "${{ env.app_name }}" --onefile --windowed --version-file=.\version.rc --icon=.\icons\${{ env.app_name_dash }}.ico --distpath dist
+
+      - name: Archive binary
+        run: |
+          cd dist
+          dir .
+          mkdir ${{ env.app_name_dash }}-${{ github.ref_name }}-windows
+          mv '${{ env.app_name }}.exe' ${{ env.app_name_dash }}-${{ github.ref_name }}-windows
+          tar -a -c -f ${{ env.app_name_dash }}-${{ github.ref_name }}-windows.zip ${{ env.app_name_dash }}-${{ github.ref_name }}-windows
+          dir .
+
+      - name: Upload artifact with binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}-binary
+          path: dist\${{ env.app_name_dash }}-${{ github.ref_name }}-windows.zip
+
+  build-macos-arm64:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest]
+    needs: build-windows
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          ./venv/bin/python -m pip install --upgrade pip
+          ./venv/bin/python -m pip install pyinstaller
+          ./venv/bin/python -m pip install -r requirements.txt
+
+      - name: Build
+        run: |
+          ./venv/bin/python -m pip list
+          ./venv/bin/python -m PyInstaller ${{ env.folder_package_name }}/__main__.py --name "${{ env.app_name }}" --windowed --icon=./icons/${{ env.app_name_dash }}.ico --distpath dist
+
+      - name: Archive binary
+        run: |
+          cd dist
+          ls -la .
+          mkdir ${{ env.app_name_dash }}-${{ github.ref_name }}-macos-arm64
+          mv "${{ env.app_name }}.app" ${{ env.app_name_dash }}-${{ github.ref_name }}-macos-arm64
+          zip -r ${{ env.app_name_dash }}-${{ github.ref_name }}-macos-arm64.zip ${{ env.app_name_dash }}-${{ github.ref_name }}-macos-arm64
+          ls -la .
+
+      - name: Upload artifact with binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}-binary
+          path: dist/${{ env.app_name_dash }}-${{ github.ref_name }}-macos-arm64.zip
+
+  build-macos:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest-large]
+    needs: build-macos-arm64
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          ./venv/bin/python -m pip install --upgrade pip
+          ./venv/bin/python -m pip install pyinstaller
+          ./venv/bin/python -m pip install -r requirements.txt
+
+      - name: Build
+        run: |
+          ./venv/bin/python -m pip list
+          ./venv/bin/python -m PyInstaller ${{ env.folder_package_name }}/__main__.py --name "${{ env.app_name }}" --windowed --icon=./icons/${{ env.app_name_dash }}.ico --distpath dist
+
+      - name: Archive binary
+        run: |
+          cd dist
+          ls -la .
+          mkdir ${{ env.app_name_dash }}-${{ github.ref_name }}-macos
+          mv "${{ env.app_name }}.app" ${{ env.app_name_dash }}-${{ github.ref_name }}-macos
+          zip -r ${{ env.app_name_dash }}-${{ github.ref_name }}-macos.zip ${{ env.app_name_dash }}-${{ github.ref_name }}-macos
+          ls -la .
+
+      - name: Upload artifact with binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}-binary
+          path: dist/${{ env.app_name_dash }}-${{ github.ref_name }}-macos.zip

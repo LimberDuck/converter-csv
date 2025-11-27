@@ -18,8 +18,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from converter_csv import utilities
+# from converter_csv import utilities
 
-png_filename = "../icons/LimberDuck-Converter-CSV.png"
+# png_filename = "../icons/LimberDuck-Converter-CSV.png"
 
-print(utilities.file_to_base64(utilities.png_to_ico(png_filename)))
+# print(utilities.file_to_base64(utilities.png_to_ico(png_filename)))

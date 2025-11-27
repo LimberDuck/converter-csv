@@ -5,6 +5,14 @@ This document records all notable changes to [Converter CSV by LimberDuck][1].
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.1] - 2025-11-27
+
+### Fixed
+
+- Requirements update
+  - removed:
+    - imageio>=2.37.0
+
 ## [0.6.0] - 2025-11-26
 
 ### Added
@@ -133,6 +141,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial public release
 
+[0.6.1]: https://github.com/LimberDuck/converter-csv/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/LimberDuck/converter-csv/compare/v0.5.3...v0.6.0
 [0.5.0]: https://github.com/LimberDuck/converter-csv/compare/v0.4.3...v0.5.0
 [0.4.3]: https://github.com/LimberDuck/converter-csv/compare/v0.4.2...v0.4.3
