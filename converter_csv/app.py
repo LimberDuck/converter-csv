@@ -1036,14 +1036,25 @@ class ParsingThread(QThread):
                 final_path_to_save, {"constant_memory": True}
             )
             worksheet = workbook.add_worksheet("details")
+            worksheet.freeze_panes(1, 0)
+            bold = workbook.add_format({"bold": True})
 
+            column_count = 0
             for row_index, row in enumerate(reader):
                 row_info = row_index + 1
                 self.progress.emit(row_info, source_file_lines_number)
                 # print(row_info, source_file_lines_number, source_file_name)
                 for column_index, cell in enumerate(row):
                     # print(">",cell,"<")
-                    worksheet.write(row_index, column_index, cell)
+                    if row_index == 0:
+                        worksheet.write(row_index, column_index, cell, bold)
+                    else:
+                        worksheet.write(row_index, column_index, cell)
+                if row_index == 0:
+                    column_count = len(row)
+
+            if column_count > 0:
+                worksheet.autofilter(0, 0, row_index, column_count - 1)
 
             self.log_emitter(
                 "info",

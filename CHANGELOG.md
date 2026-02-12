@@ -5,6 +5,20 @@ This document records all notable changes to [Converter CSV by LimberDuck][1].
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.2] - 2026-02-12
+
+### Added
+
+Save a few more seconds of time, generated spreadsheet will have now automatically:
+- **first row with bold font** - to make it more visible,
+- **first row frozen** - to make it visible while scrolling through the data,
+- **filters applied** - to all columns to make it easier to analyze the data.
+
+### Changed
+
+- tests for python
+  - added: 3.14
+
 ## [0.6.1] - 2025-11-27
 
 ### Fixed
@@ -141,6 +155,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial public release
 
+[0.6.2]: https://github.com/LimberDuck/converter-csv/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/LimberDuck/converter-csv/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/LimberDuck/converter-csv/compare/v0.5.3...v0.6.0
 [0.5.0]: https://github.com/LimberDuck/converter-csv/compare/v0.4.3...v0.5.0
