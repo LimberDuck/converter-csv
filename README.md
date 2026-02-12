@@ -28,8 +28,9 @@ your tasks.
 
 * select one or more csv files at once
 * select directory to get all csv files from it and from all it's subdirectories
-* change separator to desired char, or leave it default (comma "`,`")
+* automatically detect separator or change it to desired char,
 * change target directory for output files to desired one, or leave it default (the same as source files)
+* automatically set filters and freeze first row in generated spreadsheet to make it easier to analyze the data
 
 ## Usage
 
